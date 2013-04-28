@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Mölkk your score !</string>
+    <string name="action_settings">Options</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Bouton1">Equipe 1</string>
+    <string name="Bouton2">Equipe 2</string>
+    <string name="Nouvelle_partie">Nouvelle partie</string>
+    <string name="Resultat1">0</string>
+    <string name="Resultat2">0</string>
+    <string name="title_activity_test_view">TestView</string>
+    <string name="Joueur1"/>
+    <string name="Joueur2"/>
+
+</resources>

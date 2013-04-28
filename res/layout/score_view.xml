@@ -1,0 +1,12 @@
+<ScrollView xmlns:android="blah"
+    android:id="xid"
+    android:layout_width="w"
+    android:layout_height="h" xmlns:android1="http://schemas.android.com/apk/res/android">
+
+    <ListView
+        android1:id="@+id/listScore"
+        android1:layout_width="match_parent"
+        android1:layout_height="match_parent" >
+    </ListView>
+
+ </ScrollView>

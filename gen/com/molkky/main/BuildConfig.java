@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.example.test21;
+package com.molkky.main;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

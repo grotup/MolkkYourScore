@@ -1,21 +1,14 @@
 package com.molkky.main;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 public class JoueurListe{
 	
 	private ArrayList<Joueur> lesJoueurs;
-	private ListIterator<Joueur> iterator;
 	private int indexJoueurActuel;
 	
 	public JoueurListe(){
 		this.lesJoueurs = new ArrayList<Joueur>();
-		this.iterator = this.lesJoueurs.listIterator();
 		this.indexJoueurActuel = 0;
 	}
 	
@@ -26,9 +19,23 @@ public class JoueurListe{
 	public Joueur next(){
 		if(indexJoueurActuel < lesJoueurs.size()-1){
 			indexJoueurActuel++;
+			while(lesJoueurs.get(indexJoueurActuel).peutJouer == false){
+				if(lesJoueurs.size() -1 == indexJoueurActuel){
+					indexJoueurActuel = 0;
+				}else{
+					indexJoueurActuel++;
+				}
+			}
 			return lesJoueurs.get(indexJoueurActuel);
 		}else{
 			indexJoueurActuel = 0;
+			while(lesJoueurs.get(indexJoueurActuel).peutJouer == false){
+				if(lesJoueurs.size() -1 == indexJoueurActuel){
+					indexJoueurActuel = 0;
+				}else{
+					indexJoueurActuel++;
+				}
+			}
 			return lesJoueurs.get(0);
 		}
 	}
@@ -58,12 +65,22 @@ public class JoueurListe{
 	}
 
 	public void ResetScoreTousJoueurs() {
+		// On réinitialise toutes les valeurs
 		for(int i = 0 ; i < lesJoueurs.size() ; i++){
 			lesJoueurs.get(i).nbLignes = 0;
 			lesJoueurs.get(i).nbPoints = 0;
 			lesJoueurs.get(i).listeScore = new ArrayList<Integer>();
 			lesJoueurs.get(i).isGagnant = false;
+			lesJoueurs.get(i).peutJouer = true;
 		}
+		// Et on décale l'ordre
+		ArrayList<Joueur> tmp = new ArrayList<Joueur>();
+		for(int i = 1 ; i < lesJoueurs.size(); i++){
+			tmp.add(lesJoueurs.get(i));
+		}
+		tmp.add(lesJoueurs.get(0));
+		this.lesJoueurs = tmp;
+		indexJoueurActuel = 0;
 	}
 
 	public void ResetJoueurs() {
@@ -78,5 +95,20 @@ public class JoueurListe{
 			}
 		}
 		return valRet;
+	}
+
+	public int getNbJoueursQuiPeuventJouer() {
+		int valRet = 0;
+		for(int i = 0 ; i < this.lesJoueurs.size() ; i++){
+			
+			if(this.lesJoueurs.get(i).peutJouer){
+				valRet++;
+			}
+		}
+		return valRet;
+	}
+
+	public void remove(int position) {
+		lesJoueurs.remove(position);
 	}
 }

@@ -3,32 +3,26 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/labelJoueur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/Joueur_actuel_label" />
 
-            <TextView
-                android:id="@+id/labelJoueur"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="Joueur actuel :" />
-
-            <TextView
-                android:id="@+id/joueurActuel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="1000"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/joueurActuel"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1000"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textIsSelectable="false"/>
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,38 +37,25 @@
         </ListView>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/ajoutJoueur"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ajouter un joueur" />
 
             <ImageButton
                 android:id="@+id/annulerScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/annuler_icone_48" />
-
+                android:src="@drawable/annuler_icone_48"
+            	android:contentDescription="@string/Bouton_annuler_description"
+				/>
             <Button
                 android:id="@+id/scoreButton"
-                android:layout_width="50dp"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1000"
-                android:text="Score" />
-
-        </LinearLayout>
+                android:text="@string/Score_bouton" />
 
     </LinearLayout>
 

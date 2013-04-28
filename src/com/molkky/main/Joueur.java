@@ -8,6 +8,7 @@ public class Joueur {
 	public String nomJoueur;
 	public ArrayList<Integer> listeScore = new ArrayList<Integer>();
 	public boolean isGagnant = false;;
+	public boolean peutJouer = true;
 	
 	public Joueur(String iStrNom){
 		this.nomJoueur = iStrNom;
@@ -18,9 +19,7 @@ public class Joueur {
 		if(leScore == 0){
 			this.ajouterLigne();
 		}else{
-			if(this.hasLigne()){
-				this.resetLignes();
-			}
+			this.resetLignes();
 		}
 		this.nbPoints += leScore;
 		this.listeScore.add(Integer.valueOf(score));
@@ -44,10 +43,6 @@ public class Joueur {
 	
 	private void ajouterLigne(){
 		this.nbLignes++;
-	}
-	
-	private boolean hasLigne(){
-		return false;
 	}
 
 	public void annulerScore() {

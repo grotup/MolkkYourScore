@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.test21;
+package com.molkky.main;
 
 public final class R {
     public static final class array {
@@ -232,20 +232,19 @@ containing a value of this type.
     public static final class drawable {
         public static final int annuler_icone_16=0x7f020000;
         public static final int annuler_icone_48=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int interdit=0x7f020003;
-        public static final int lignes0=0x7f020004;
-        public static final int lignes1=0x7f020005;
-        public static final int lignes2=0x7f020006;
-        public static final int lignes3=0x7f020007;
+        public static final int av_replay=0x7f020002;
+        public static final int contentnew=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int interdit=0x7f020005;
+        public static final int lignes0=0x7f020006;
+        public static final int lignes1=0x7f020007;
+        public static final int lignes2=0x7f020008;
+        public static final int lignes3=0x7f020009;
     }
     public static final class id {
-        public static final int action_settings=0x7f040021;
-        public static final int ajoutJoueur=0x7f040015;
         public static final int alignBounds=0x7f040002;
         public static final int alignMargins=0x7f040003;
-        public static final int annuler=0x7f040020;
-        public static final int annulerScore=0x7f040016;
+        public static final int annulerScore=0x7f040015;
         public static final int bottom=0x7f040005;
         public static final int center=0x7f04000c;
         public static final int center_horizontal=0x7f04000a;
@@ -253,7 +252,6 @@ containing a value of this type.
         public static final int clip_horizontal=0x7f04000f;
         public static final int clip_vertical=0x7f04000e;
         public static final int end=0x7f040011;
-        public static final int favoris=0x7f04001c;
         public static final int fill=0x7f04000d;
         public static final int fill_horizontal=0x7f04000b;
         public static final int fill_vertical=0x7f040009;
@@ -262,63 +260,54 @@ containing a value of this type.
         public static final int labelJoueur=0x7f040012;
         public static final int left=0x7f040006;
         public static final int listJoueurs=0x7f040014;
-        public static final int listScore=0x7f04001f;
-        public static final int option=0x7f04001a;
-        public static final int quitter=0x7f04001e;
+        public static final int listScore=0x7f040019;
+        public static final int menu_nouveauJoueur=0x7f04001a;
+        public static final int menu_nouvellePartie=0x7f04001b;
         public static final int right=0x7f040007;
-        public static final int scoreButton=0x7f040017;
-        public static final int sousmenu=0x7f04001b;
+        public static final int scoreButton=0x7f040016;
         public static final int start=0x7f040010;
-        public static final int stats=0x7f04001d;
         public static final int top=0x7f040004;
-        public static final int tvNomJoueur=0x7f040018;
-        public static final int tvScore=0x7f040019;
+        public static final int tvNomJoueur=0x7f040017;
+        public static final int tvScore=0x7f040018;
         public static final int vertical=0x7f040001;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int itemjoueur=0x7f030001;
-        public static final int menu=0x7f030002;
-        public static final int score_view=0x7f030003;
+        public static final int score_view=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f090000;
-        public static final int test_view=0x7f090001;
     }
     public static final class string {
-        public static final int Bouton1=0x7f060003;
-        public static final int Bouton2=0x7f060004;
-        public static final int Joueur1=0x7f060009;
-        public static final int Joueur2=0x7f06000a;
-        public static final int Nouvelle_partie=0x7f060005;
-        public static final int Resultat1=0x7f060006;
-        public static final int Resultat2=0x7f060007;
-        public static final int action_settings=0x7f060001;
+        public static final int Bouton_annuler_description=0x7f060004;
+        public static final int Joueur_actuel_label=0x7f060003;
+        public static final int Nouveau_joueur=0x7f060002;
+        public static final int Nouvelle_partie=0x7f060001;
+        public static final int Score_bouton=0x7f060005;
         public static final int app_name=0x7f060000;
-        public static final int hello_world=0x7f060002;
-        public static final int pref_default_display_name=0x7f060010;
-        public static final int pref_description_social_recommendations=0x7f06000e;
+        public static final int pref_default_display_name=0x7f06000b;
+        public static final int pref_description_social_recommendations=0x7f060009;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f060012;
+        public static final int pref_header_data_sync=0x7f06000d;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f06000c;
+        public static final int pref_header_general=0x7f060007;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f060015;
-        public static final int pref_ringtone_silent=0x7f060018;
-        public static final int pref_title_add_friends_to_messages=0x7f060011;
-        public static final int pref_title_display_name=0x7f06000f;
-        public static final int pref_title_new_message_notifications=0x7f060016;
-        public static final int pref_title_ringtone=0x7f060017;
-        public static final int pref_title_social_recommendations=0x7f06000d;
-        public static final int pref_title_sync_frequency=0x7f060013;
-        public static final int pref_title_system_sync_settings=0x7f060014;
-        public static final int pref_title_vibrate=0x7f060019;
-        public static final int title_activity_settings=0x7f06000b;
-        public static final int title_activity_test_view=0x7f060008;
+        public static final int pref_header_notifications=0x7f060010;
+        public static final int pref_ringtone_silent=0x7f060013;
+        public static final int pref_title_add_friends_to_messages=0x7f06000c;
+        public static final int pref_title_display_name=0x7f06000a;
+        public static final int pref_title_new_message_notifications=0x7f060011;
+        public static final int pref_title_ringtone=0x7f060012;
+        public static final int pref_title_social_recommendations=0x7f060008;
+        public static final int pref_title_sync_frequency=0x7f06000e;
+        public static final int pref_title_system_sync_settings=0x7f06000f;
+        public static final int pref_title_vibrate=0x7f060014;
+        public static final int title_activity_settings=0x7f060006;
     }
     public static final class style {
         /** 
@@ -355,20 +344,20 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #GridLayout_alignmentMode com.example.test21:alignmentMode}</code></td><td>
+           <tr><td><code>{@link #GridLayout_alignmentMode com.molkky.main:alignmentMode}</code></td><td>
         When set to alignMargins, causes alignment to take place between the outer
         boundary of a view, as defined by its margins.</td></tr>
-           <tr><td><code>{@link #GridLayout_columnCount com.example.test21:columnCount}</code></td><td> The maximum number of columns to create when automatically positioning children.</td></tr>
-           <tr><td><code>{@link #GridLayout_columnOrderPreserved com.example.test21:columnOrderPreserved}</code></td><td>
+           <tr><td><code>{@link #GridLayout_columnCount com.molkky.main:columnCount}</code></td><td> The maximum number of columns to create when automatically positioning children.</td></tr>
+           <tr><td><code>{@link #GridLayout_columnOrderPreserved com.molkky.main:columnOrderPreserved}</code></td><td>
         When set to true, forces column boundaries to appear in the same order
         as column indices.</td></tr>
-           <tr><td><code>{@link #GridLayout_orientation com.example.test21:orientation}</code></td><td>
+           <tr><td><code>{@link #GridLayout_orientation com.molkky.main:orientation}</code></td><td>
               support versions.</td></tr>
-           <tr><td><code>{@link #GridLayout_rowCount com.example.test21:rowCount}</code></td><td> The maximum number of rows to create when automatically positioning children.</td></tr>
-           <tr><td><code>{@link #GridLayout_rowOrderPreserved com.example.test21:rowOrderPreserved}</code></td><td>
+           <tr><td><code>{@link #GridLayout_rowCount com.molkky.main:rowCount}</code></td><td> The maximum number of rows to create when automatically positioning children.</td></tr>
+           <tr><td><code>{@link #GridLayout_rowOrderPreserved com.molkky.main:rowOrderPreserved}</code></td><td>
         When set to true, forces row boundaries to appear in the same order
         as row indices.</td></tr>
-           <tr><td><code>{@link #GridLayout_useDefaultMargins com.example.test21:useDefaultMargins}</code></td><td>
+           <tr><td><code>{@link #GridLayout_useDefaultMargins com.molkky.main:useDefaultMargins}</code></td><td>
         When set to true, tells GridLayout to use default margins when none are specified
         in a view's layout parameters.</td></tr>
            </table>
@@ -548,33 +537,33 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_height com.example.test21:android_layout_height}</code></td><td></td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_margin com.example.test21:android_layout_margin}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_height com.molkky.main:android_layout_height}</code></td><td></td></tr>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_margin com.molkky.main:android_layout_margin}</code></td><td>
               Specifies extra space on the left, top, right and bottom
               sides of this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginBottom com.example.test21:android_layout_marginBottom}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginBottom com.molkky.main:android_layout_marginBottom}</code></td><td>
               Specifies extra space on the bottom side of this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginLeft com.example.test21:android_layout_marginLeft}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginLeft com.molkky.main:android_layout_marginLeft}</code></td><td>
               Specifies extra space on the left side of this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginRight com.example.test21:android_layout_marginRight}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginRight com.molkky.main:android_layout_marginRight}</code></td><td>
               Specifies extra space on the right side of this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginTop com.example.test21:android_layout_marginTop}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_marginTop com.molkky.main:android_layout_marginTop}</code></td><td>
               Specifies extra space on the top side of this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_android_layout_width com.example.test21:android_layout_width}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_android_layout_width com.molkky.main:android_layout_width}</code></td><td>
               support versions.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_layout_column com.example.test21:layout_column}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_layout_column com.molkky.main:layout_column}</code></td><td>
         The column boundary delimiting the left of the group of cells
         occupied by this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_layout_columnSpan com.example.test21:layout_columnSpan}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_layout_columnSpan com.molkky.main:layout_columnSpan}</code></td><td>
         The column span: the difference between the right and left
         boundaries delimiting the group of cells occupied by this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_layout_gravity com.example.test21:layout_gravity}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_layout_gravity com.molkky.main:layout_gravity}</code></td><td>
         Gravity specifies how a component should be placed in its group of cells.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_layout_row com.example.test21:layout_row}</code></td><td> END MarginLayout layoutparams 
+           <tr><td><code>{@link #GridLayout_Layout_layout_row com.molkky.main:layout_row}</code></td><td> END MarginLayout layoutparams 
 
         The row boundary delimiting the top of the group of cells
         occupied by this view.</td></tr>
-           <tr><td><code>{@link #GridLayout_Layout_layout_rowSpan com.example.test21:layout_rowSpan}</code></td><td>
+           <tr><td><code>{@link #GridLayout_Layout_layout_rowSpan com.molkky.main:layout_rowSpan}</code></td><td>
         The row span: the difference between the bottom and top
         boundaries delimiting the group of cells occupied by this view.</td></tr>
            </table>
@@ -597,7 +586,7 @@ containing a value of this type.
             0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b
         };
         /**
-          <p>This symbol is the offset where the {@link com.example.test21.R.attr#android_layout_height}
+          <p>This symbol is the offset where the {@link com.molkky.main.R.attr#android_layout_height}
           attribute's value can be found in the {@link #GridLayout_Layout} array.
           @attr name android:android_layout_height
         */
@@ -609,7 +598,7 @@ containing a value of this type.
               Specifies extra space on the left, top, right and bottom
               sides of this view. This space is outside this view's bounds.
         
-          <p>This corresponds to the global attribute          resource symbol {@link com.example.test21.R.attr#android_layout_margin}.
+          <p>This corresponds to the global attribute          resource symbol {@link com.molkky.main.R.attr#android_layout_margin}.
           @attr name android:android_layout_margin
         */
         public static final int GridLayout_Layout_android_layout_margin = 2;
@@ -620,7 +609,7 @@ containing a value of this type.
               Specifies extra space on the bottom side of this view.
               This space is outside this view's bounds.
         
-          <p>This corresponds to the global attribute          resource symbol {@link com.example.test21.R.attr#android_layout_marginBottom}.
+          <p>This corresponds to the global attribute          resource symbol {@link com.molkky.main.R.attr#android_layout_marginBottom}.
           @attr name android:android_layout_marginBottom
         */
         public static final int GridLayout_Layout_android_layout_marginBottom = 6;
@@ -631,7 +620,7 @@ containing a value of this type.
               Specifies extra space on the left side of this view.
               This space is outside this view's bounds.
         
-          <p>This corresponds to the global attribute          resource symbol {@link com.example.test21.R.attr#android_layout_marginLeft}.
+          <p>This corresponds to the global attribute          resource symbol {@link com.molkky.main.R.attr#android_layout_marginLeft}.
           @attr name android:android_layout_marginLeft
         */
         public static final int GridLayout_Layout_android_layout_marginLeft = 3;
@@ -642,7 +631,7 @@ containing a value of this type.
               Specifies extra space on the right side of this view.
               This space is outside this view's bounds.
         
-          <p>This corresponds to the global attribute          resource symbol {@link com.example.test21.R.attr#android_layout_marginRight}.
+          <p>This corresponds to the global attribute          resource symbol {@link com.molkky.main.R.attr#android_layout_marginRight}.
           @attr name android:android_layout_marginRight
         */
         public static final int GridLayout_Layout_android_layout_marginRight = 5;
@@ -653,7 +642,7 @@ containing a value of this type.
               Specifies extra space on the top side of this view.
               This space is outside this view's bounds.
         
-          <p>This corresponds to the global attribute          resource symbol {@link com.example.test21.R.attr#android_layout_marginTop}.
+          <p>This corresponds to the global attribute          resource symbol {@link com.molkky.main.R.attr#android_layout_marginTop}.
           @attr name android:android_layout_marginTop
         */
         public static final int GridLayout_Layout_android_layout_marginTop = 4;
@@ -665,7 +654,7 @@ containing a value of this type.
               redefined in the support library name space.
         
  START MarginLayout layoutparams 
-          <p>This corresponds to the global attribute          resource symbol {@link com.example.test21.R.attr#android_layout_width}.
+          <p>This corresponds to the global attribute          resource symbol {@link com.molkky.main.R.attr#android_layout_width}.
           @attr name android:android_layout_width
         */
         public static final int GridLayout_Layout_android_layout_width = 0;

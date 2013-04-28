@@ -1,16 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<item 
-	    android:id="@+id/annuler"
-	    android:orderInCategory="100"
-	    android:showAsAction="ifRoom|withText"
-	    android:title="Annuler"
-	    >
-    </item>
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings">
-    </item>
+    <item 	android:title="@string/Nouveau_joueur"
+        	android:id="@+id/menu_nouveauJoueur"
+          	android:icon="@drawable/contentnew"
+          	android:showAsAction="ifRoom|withText"/>
+    
+    <item 	android:title="@string/Nouvelle_partie"
+       	 	android:id="@+id/menu_nouvellePartie"
+    		android:icon="@drawable/av_replay"
+       		android:showAsAction="ifRoom|withText"/>
 </menu>
     

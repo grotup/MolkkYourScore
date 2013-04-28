@@ -1,6 +1,6 @@
 package com.molkky.main;
 
-import com.example.test21.R;
+import com.molkky.main.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

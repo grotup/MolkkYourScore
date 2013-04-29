@@ -42,7 +42,7 @@ public class Joueur {
 	}
 	
 	private void ajouterLigne(){
-		this.nbLignes++;
+		this.nbLignes++;		
 	}
 
 	public void annulerScore() {

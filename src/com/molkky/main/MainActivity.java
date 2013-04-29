@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener, OnItemLongClickListener{
 
@@ -47,11 +50,8 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		    	  if(!listeJoueur.partieCommencee()){
 		    		  view.animate().setDuration(500).alpha(0).withEndAction(new Runnable() {
 		    			  public void run() {		            	  
-		    				  listeJoueur.remove(position);
-		    				  ListView lv = (ListView) findViewById(R.id.listJoueurs);
-		    				  ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
+		    				  supprimerJoueurListe(position);
 		    				  view.setAlpha(1);
-		    				  updateComponents();
 		    			  }
 		    		  });
 		    	  }
@@ -91,7 +91,16 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 
 	public void onClick(View arg0) {
 		if(arg0 == (Button)findViewById(R.id.scoreButton)){
-			ajouterScore();
+			// On sélectionne le premier joueur de la liste
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Score de " + listeJoueur.getJoueurActuel().nomJoueur);
+			final String[] liste = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+			builder.setItems(liste, new DialogInterface.OnClickListener(){
+			    public void onClick(DialogInterface dialog, int which) {
+			    	ajouterScore(liste[which]);
+			    }
+			});
+			builder.show();
 		}
 		if(arg0 == (ImageButton)findViewById(R.id.annulerScore)){
 			annulerScore();
@@ -112,18 +121,11 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	 * Méthode appelée quand on clique sur le bouton d'ajout de score
 	 * Affiche le menu des scores et ajoute le score sélectionné au joueur actuel
 	 */
-	public void ajouterScore(){
-		// On sélectionne le premier joueur de la liste
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Score de " + listeJoueur.getJoueurActuel().nomJoueur);
-		final String[] liste = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
-		builder.setItems(liste, new DialogInterface.OnClickListener(){
-		    public void onClick(DialogInterface dialog, int which) {
-		    	listeJoueur.getJoueurActuel().ajouterScore(liste[which]);
-				verifsFinDeTour();
-		    }
-		});
-		builder.show();
+	public void ajouterScore(String score){
+		listeJoueur.getJoueurActuel().ajouterScore(score);
+		if(score == "0")
+			Toast.makeText(this, "Le joueur " + listeJoueur.getJoueurActuel().nomJoueur + " a " + listeJoueur.getJoueurActuel().nbLignes + " ligne(s)", Toast.LENGTH_LONG).show();
+		verifsFinDeTour();
 	}
 	
 	/**
@@ -132,32 +134,32 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	 */
 	public void ajouterJoueur(){
 		// Dans ce cas, on affiche le formulaire du nom de joueur
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setTitle("Nom du nouveau joueur");
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Nom du nouveau joueur");
 
-					// Set up the input
-					final EditText input = new EditText(this);
-					// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-					input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);			
-					builder.setView(input);
-					// Set up the buttons
-					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int which) {
-					        nomJoueur = input.getText().toString();
-					        listeJoueur.addJoueur(new Joueur(nomJoueur));
-					        TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
-					        tvJoueurActuel.setText(listeJoueur.getJoueur(0).nomJoueur);
-					        updateComponents();
-					        Button ajoutScore = (Button) findViewById(R.id.scoreButton);
-							ajoutScore.setEnabled(true);
-					    }
-					});
-					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int which) {
-					        dialog.cancel();
-					    }
-					});
-					builder.show();
+		// Set up the input
+		final EditText input = new EditText(this);
+		// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+		input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+		// Set up the buttons
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int which) {
+		        listeJoueur.addJoueur(new Joueur(input.getText().toString()));
+		        TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
+		        tvJoueurActuel.setText(listeJoueur.getJoueur(0).nomJoueur);
+		        updateComponents();
+		        Button ajoutScore = (Button) findViewById(R.id.scoreButton);
+				ajoutScore.setEnabled(true);
+		    }
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int which) {
+		        dialog.cancel();
+		    }
+		});
+
+		builder.setView(input);
+		builder.show();
 	}
 
 	/**
@@ -251,5 +253,12 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
         	TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
             tvJoueurActuel.setText(""); 
         }
+	}
+
+	private void supprimerJoueurListe(int index){
+		listeJoueur.remove(index);
+		  ListView lv = (ListView) findViewById(R.id.listJoueurs);
+		  ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
+		  updateComponents();
 	}
 }

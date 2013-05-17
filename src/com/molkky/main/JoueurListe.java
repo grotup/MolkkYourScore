@@ -6,6 +6,12 @@ public class JoueurListe{
 	
 	private ArrayList<Joueur> lesJoueurs;
 	private int indexJoueurActuel;
+	/**
+	 * Les variables issues des paramètres
+	 */
+	private int nbPointsVictoire;
+	private int nbLignesMax;
+	private int scoreDepassement;
 	
 	public JoueurListe(){
 		this.lesJoueurs = new ArrayList<Joueur>();
@@ -14,6 +20,14 @@ public class JoueurListe{
 	
 	public Joueur getJoueurActuel(){
 		return this.lesJoueurs.get(indexJoueurActuel);
+	}
+	
+	public int getJoueurActuelIndex(){
+		return this.indexJoueurActuel;
+	}
+	
+	public void setIndexJoueurActuel(int index){
+		this.indexJoueurActuel = index;
 	}
 	
 	public Joueur next(){
@@ -40,8 +54,9 @@ public class JoueurListe{
 		}
 	}
 	
-	public void addJoueur(Joueur j){
+	public Joueur addJoueur(Joueur j){
 		this.lesJoueurs.add(j);
+		return this.lesJoueurs.get(this.lesJoueurs.size()-1);
 	}
 	
 	// Fonction qui retourne le joueur qui a joué avant.
@@ -100,7 +115,6 @@ public class JoueurListe{
 	public int getNbJoueursQuiPeuventJouer() {
 		int valRet = 0;
 		for(int i = 0 ; i < this.lesJoueurs.size() ; i++){
-			
 			if(this.lesJoueurs.get(i).peutJouer){
 				valRet++;
 			}

@@ -42,17 +42,21 @@ public class JoueurListeAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.itemjoueur, null);
 			holder.tvNomJoueur = (TextView)convertView.findViewById(R.id.tvNomJoueur);
 			holder.tvScore = (TextView)convertView.findViewById(R.id.tvScore);
+			holder.listeScore = (TextView)convertView.findViewById(R.id.listeScore);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.tvNomJoueur.setText(liste.getJoueur(position).nomJoueur);
 		holder.tvScore.setText(Integer.toString(liste.getJoueur(position).nbPoints));
+		holder.listeScore.setText(liste.getJoueur(position).getListeScore());
+		
 		return convertView;
 	}
 
 	private class ViewHolder {
 		TextView tvNomJoueur;
 		TextView tvScore;
+		TextView listeScore;
 	}
 }

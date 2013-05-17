@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
     <item 	android:title="@string/Nouveau_joueur"
-        	android:id="@+id/menu_nouveauJoueur"
-          	android:icon="@drawable/contentnew"
-          	android:showAsAction="ifRoom|withText"/>
+       	 	android:id="@+id/menu_ajouter_joueur"/>
     
     <item 	android:title="@string/Nouvelle_partie"
-       	 	android:id="@+id/menu_nouvellePartie"
-    		android:icon="@drawable/av_replay"
-       		android:showAsAction="ifRoom|withText"/>
+       	 	android:id="@+id/menu_nouvellePartie"/>
+    
+    <item 	android:title="@string/Options"
+        	android:id="@+id/menu_options" />
 </menu>
     

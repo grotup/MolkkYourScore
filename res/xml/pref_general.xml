@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:title="Règles"
+        android:key="pref_key_regles_settings">
+        
+            <ListPreference 
+                android:title="Nombre de points"
+                android:key="nbPoints"
+                android:summary="Nombre de points pour gagner la partie"
+                android:entries="@array/nbPoints"
+                android:entryValues="@array/NbPointsV"
+                android:defaultValue="50"/>
+        
+         	<ListPreference 
+                android:title="Nombre de lignes"
+                android:key="nbLignes"
+                android:summary="Nombre de lignes maximum autorisées"
+                android:entries="@array/nbLignes"
+                android:entryValues="@array/nbLignesV"
+                android:defaultValue="3"/>
+         	
+         	<ListPreference 
+         	    android:title="Score de dépassement"
+         	    android:key="scoreDepassement"
+         	    android:summary="Score du joueur quand il dépasse le score de victoire"
+         	    android:entries="@array/nbScoreDepassement"
+         	    android:entryValues="@array/nbScoreDepassementV"
+         	    android:defaultValue="25" />
+         	
+    </PreferenceCategory>
+
+</PreferenceScreen>

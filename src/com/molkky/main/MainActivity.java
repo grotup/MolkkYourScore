@@ -46,6 +46,8 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		this.nbPointsVictoire = Integer.valueOf(sharedPref.getString("nbPoints", "50"));
 		this.nbLignesMax = Integer.valueOf(sharedPref.getString("nbLignes", "3"));
 		this.scoreDepassement = Integer.valueOf(sharedPref.getString("scoreDepassement", "25"));
+		// On crée une partie
+		creerPartie();
 		// Si on a des préférences, on ajoute les joueurs.
 		initComponents();
 		getPreferences();
@@ -120,14 +122,22 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		listJoueur.setAdapter(adapter);
 		listJoueur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 		      public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
-		    	  if(!listeJoueur.partieCommencee()){
-		    		  view.animate().setDuration(500).alpha(0).withEndAction(new Runnable() {
-		    			  public void run() {		            	  
-		    				  supprimerJoueurListe(position);
-		    				  view.setAlpha(1);		    				  
-		    			  }
-		    		  });
-		    	  }
+		    	  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setTitle("Suppression d'un joueur");
+					builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + listeJoueur.getJoueur(position).nomJoueur + " ?");
+					builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int which) {
+					    	if(!listeJoueur.partieCommencee()){
+					    		supprimerJoueurListe(position);
+					    		view.setAlpha(1);
+					    		updateComponents();
+					    	}
+					    }
+					});
+					builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int which) {}
+					});
+					builder.show();
 		      };
 
 		    });
@@ -146,7 +156,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		switch (item.getItemId()) {
 			case R.id.menu_nouvellePartie:
 				resetAll();
-				creerPartie();
 				break;
 				
 			case R.id.menu_ajouter_joueur:
@@ -201,7 +210,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			builder.setItems(liste, new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {
 			    	ajouterScore(liste[which]);
-			    	engine.ajouterScore(liste[which]);
+			    	//engine.ajouterScore(liste[which]);
 			    }
 			});
 			builder.show();
@@ -283,15 +292,24 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		if(joueurActuelOuGagnant.nbLignes == this.nbLignesMax){
 			joueurActuelOuGagnant.peutJouer = false;
 			afficherJoueurPerdant(listeJoueur.getJoueurActuel());
+			updateComponents();
 		}
 		// S'il ne reste plus qu'un joueur qui peut jouer, alors celui ci a gagné.
 		if(listeJoueur.size() > 1 && listeJoueur.getNbJoueursQuiPeuventJouer() == 1){
 			joueurActuelOuGagnant = listeJoueur.next();
 			finDePartie = true;
 		}
-		if(finDePartie){
+		if(listeJoueur.getNbJoueursQuiPeuventJouer() == 0){
+			finDePartie = true;
+			joueurActuelOuGagnant = null;
+			listeJoueur.ResetScoreTousJoueurs();
+		}
+		if(finDePartie && joueurActuelOuGagnant != null){
 			afficherJoueurGagnant(joueurActuelOuGagnant);
-		}else{
+			listeJoueur.ResetScoreTousJoueurs();
+	    	updateComponents();
+		}
+		if(!finDePartie){
 			listeJoueur.next();
 		}
 		updateComponents();
@@ -306,9 +324,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		builder.setTitle("Perdu.");
 		builder.setMessage("Fin de partie pour " + j.nomJoueur + " !");
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int which) {
-		    	updateComponents();
-		    }
+		    public void onClick(DialogInterface dialog, int which) {}
 		});
 		builder.show();
 	}
@@ -322,22 +338,30 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		builder.setTitle("Fin de partie ! ");
 		builder.setMessage(j.nomJoueur + " gagne !");
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int which) {
-		    	listeJoueur.ResetScoreTousJoueurs();
-		    	updateComponents();
-		    }
+		    public void onClick(DialogInterface dialog, int which) {}
 		});
 		builder.show();
 	}
 
-	@Override
+	
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Joueur");
 		builder.setMessage("Supprimer " + listeJoueur.getJoueur(arg2).nomJoueur);
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				supprimerJoueurListe(which);
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setTitle("Suppression d'un joueur");
+				builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + listeJoueur.getJoueur(which) + " ?");
+				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int which) {
+				    	supprimerJoueurListe(which);
+				    }
+				});
+				builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int which) {}
+				});
+				builder.show();
 			}
 		});
 		return false;
@@ -368,14 +392,16 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
         }else{
         	TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
             tvJoueurActuel.setText(""); 
+            Button bAjoutScore = (Button) findViewById(R.id.scoreButton);
+            bAjoutScore.setText("Score");
         }
 	}
 
 	private void supprimerJoueurListe(int index){
-		listeJoueur.remove(index);
+			listeJoueur.remove(index);
 		  ListView lv = (ListView) findViewById(R.id.listJoueurs);
 		  ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
-		  updateComponents();
+		  
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

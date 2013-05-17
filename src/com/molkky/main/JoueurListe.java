@@ -124,5 +124,8 @@ public class JoueurListe{
 
 	public void remove(int position) {
 		lesJoueurs.remove(position);
+		if(this.size() != 0){
+			this.indexJoueurActuel = 0;
+		}
 	}
 }

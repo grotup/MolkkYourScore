@@ -35,12 +35,13 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	private int nbPointsVictoire;
 	private int nbLignesMax;
 	private int scoreDepassement;
-	private MolkkEngine engine;
+	private Partie engine;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		this.listeJoueur = new JoueurListe();
+		//this.listeJoueur = new JoueurListe();
+		
 		// On va chercher les prefs
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		this.nbPointsVictoire = Integer.valueOf(sharedPref.getString("nbPoints", "50"));
@@ -64,7 +65,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 				String[] joueurs = lesJoueurs.split(";");
 				for(int i = 0; i < joueurs.length ; i++){
 					String[] objJoueur = joueurs[i].split("__");
-					Joueur joueur = listeJoueur.addJoueur(new Joueur(objJoueur[0], nbPointsVictoire, nbLignesMax, scoreDepassement));
+					Joueur joueur = engine.addJoueur(new Joueur(objJoueur[0], nbPointsVictoire, nbLignesMax, scoreDepassement));
 					if(objJoueur.length > 1){
 						String[] scores = objJoueur[1].split(" - ");
 						for(int j = 0 ; j < scores.length ; j++){
@@ -73,9 +74,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 					}
 				}
 			}
-			listeJoueur.setIndexJoueurActuel(prefs.getInt("joueurActuel", 0));
+			
+			engine.setIndexJoueurActuel(prefs.getInt("joueurActuel", 0));
 			TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
-	        tvJoueurActuel.setText(listeJoueur.getJoueurActuel().nomJoueur);
+	        tvJoueurActuel.setText(engine.getJoueurActuel().nomJoueur);
 	        updateComponents();
 	        Button ajoutScore = (Button) findViewById(R.id.scoreButton);
 			ajoutScore.setEnabled(true);
@@ -90,18 +92,18 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	protected void onStop(){
 		super.onStop();
 		// Quand on tue l'application, on enregistre le nom des joueurs déjà créés
-		if(listeJoueur.size() != 0){
+		if(engine.getNbJoueurs() != 0){
 			SharedPreferences prefs = this.getPreferences(MODE_PRIVATE);
 			String joueurs = "";
-			for(int i = 0 ; i < listeJoueur.size() ; i++){
-				joueurs += listeJoueur.getJoueur(i).nomJoueur + "__";
-				joueurs += listeJoueur.getJoueur(i).getListeScore();
+			for(int i = 0 ; i < engine.getNbJoueurs() ; i++){
+				joueurs += engine.getJoueur(i).nomJoueur + "__";
+				joueurs += engine.getJoueur(i).getListeScore();
 				joueurs += ";";
 			}
 			SharedPreferences.Editor editor = prefs.edit();
 			editor.remove("joueurs");
 			editor.putString("joueurs", joueurs);
-			editor.putInt("joueurActuel", listeJoueur.getJoueurActuelIndex());
+			editor.putInt("joueurActuel", engine.getJoueurActuelIndex());
 			editor.commit();
 		}
 	}
@@ -117,18 +119,19 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		annulerScore.setEnabled(false);
 		
 		ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
-		listJoueur.setOnItemLongClickListener(this);
-		JoueurListeAdapter adapter = new JoueurListeAdapter(this, this.listeJoueur);
+		JoueurListeAdapter adapter = new JoueurListeAdapter(this, this.engine.getListeJoueur());
 		listJoueur.setAdapter(adapter);
+
+		listJoueur.setOnItemLongClickListener(this);
 		listJoueur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 		      public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
 		    	  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 					builder.setTitle("Suppression d'un joueur");
-					builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + listeJoueur.getJoueur(position).nomJoueur + " ?");
+					builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + engine.getJoueur(position).nomJoueur + " ?");
 					builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					    public void onClick(DialogInterface dialog, int which) {
-					    	if(!listeJoueur.partieCommencee()){
-					    		supprimerJoueurListe(position);
+					    	if(!engine.partieCommencee()){
+					    		engine.supprimerJoueur(position);
 					    		view.setAlpha(1);
 					    		updateComponents();
 					    	}
@@ -155,8 +158,12 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_nouvellePartie:
-				resetAll();
+				creerPartie();
+				initComponents();
+				ListView lv = (ListView) findViewById(R.id.listJoueurs);
+				((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();			
 				break;
+				
 				
 			case R.id.menu_ajouter_joueur:
 				ajouterJoueur();
@@ -171,7 +178,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 
 	private void creerPartie(){
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		this.engine = new MolkkEngine(	Integer.valueOf(sharedPref.getString("nbPoints", "50")), 
+		this.engine = new Partie(	Integer.valueOf(sharedPref.getString("nbPoints", "50")), 
 										Integer.valueOf(sharedPref.getString("nbLignes", "3")), 
 										Integer.valueOf(sharedPref.getString("scoreDepassement", "25"))
 									);
@@ -189,56 +196,28 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		editor.remove("joueurActuel");
 		editor.commit();
 	}
-
-	private void resetAll() {
-		listeJoueur = new JoueurListe();
-		this.resetPreference();
-		// On va chercher les prefs
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		this.nbPointsVictoire = Integer.valueOf(sharedPref.getString("nbPoints", "50"));
-		this.nbLignesMax = Integer.valueOf(sharedPref.getString("nbLignes", "3"));
-		this.scoreDepassement = Integer.valueOf(sharedPref.getString("scoreDepassement", "25"));
-		initComponents();
-	}
-
+	
 	public void onClick(View arg0) {
 		if(arg0 == (Button)findViewById(R.id.scoreButton)){
 			// On sélectionne le premier joueur de la liste
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Score de " + listeJoueur.getJoueurActuel().nomJoueur);
+			builder.setTitle("Score de " + engine.getJoueurActuel().nomJoueur);
 			final String[] liste = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
 			builder.setItems(liste, new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {
-			    	ajouterScore(liste[which]);
-			    	//engine.ajouterScore(liste[which]);
+			    	if(which == 0)
+						Toast.makeText(MainActivity.this, "Le joueur " + engine.getJoueurActuel().nomJoueur + " a " + (engine.getJoueurActuel().nbLignes + 1) + " ligne(s)", Toast.LENGTH_LONG).show();
+			    	engine.ajouterScore(which);
+					verifsFinDeTour();
+					updateComponents();
 			    }
 			});
 			builder.show();
 		}
 		if(arg0 == (ImageButton)findViewById(R.id.annulerScore)){
-			annulerScore();
+			engine.annulerScore();
+			updateComponents();
 		}
-	}
-	
-	/**
-	 * Méthode appelée quand clique sur le bouton pour annuler un score.
-	 * Supprime le dernier score et sélectionne le joueur d'avant en tant que joueur actuel
-	 */
-	public void annulerScore(){
-		Joueur dernierJoueur = listeJoueur.getJoueurAvant();
-		dernierJoueur.annulerScore();
-		updateComponents();
-	}
-	
-	/**
-	 * Méthode appelée quand on clique sur le bouton d'ajout de score
-	 * Affiche le menu des scores et ajoute le score sélectionné au joueur actuel
-	 */
-	public void ajouterScore(String score){
-		listeJoueur.getJoueurActuel().ajouterScore(score);
-		if(score == "0")
-			Toast.makeText(this, "Le joueur " + listeJoueur.getJoueurActuel().nomJoueur + " a " + listeJoueur.getJoueurActuel().nbLignes + " ligne(s)", Toast.LENGTH_LONG).show();
-		verifsFinDeTour();
 	}
 	
 	/**
@@ -260,9 +239,9 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		// Set up the buttons
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int which) {
-		        listeJoueur.addJoueur(new Joueur(input.getText().toString(), nbPointsVictoire, nbLignesMax, scoreDepassement));
+		    	engine.addJoueur(input.getText().toString());
 		        TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
-		        tvJoueurActuel.setText(listeJoueur.getJoueur(0).nomJoueur);
+		        tvJoueurActuel.setText(engine.getJoueur(0).nomJoueur);
 		        updateComponents();
 		        Button ajoutScore = (Button) findViewById(R.id.scoreButton);
 				ajoutScore.setEnabled(true);
@@ -282,37 +261,21 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	 * Dans cette méthode appelée en fin de tour, on vérifie que la partie n'est pas finie.
 	 */
 	private void verifsFinDeTour(){
-		boolean finDePartie = false;
-		Joueur joueurActuelOuGagnant = listeJoueur.getJoueurActuel();
-		// Si le joueur actuel a 50 points, il a gagné, c'est la fin de partie.
-		if(joueurActuelOuGagnant.isGagnant){
-			finDePartie = true;
+		if(engine.finDePartie){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Fin.");
+			builder.setMessage("Fin de partie !");
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int which) {
+			    	engine.ResetScoreTousJoueurs();
+			    	ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
+			    	JoueurListeAdapter adapter = new JoueurListeAdapter(MainActivity.this, engine.getListeJoueur());
+					listJoueur.setAdapter(adapter);
+					updateComponents();
+			    }
+			});
+			builder.show();
 		}
-		// Si c'est la troisième ligne pour le joueur actuel, alors il a perdu.
-		if(joueurActuelOuGagnant.nbLignes == this.nbLignesMax){
-			joueurActuelOuGagnant.peutJouer = false;
-			afficherJoueurPerdant(listeJoueur.getJoueurActuel());
-			updateComponents();
-		}
-		// S'il ne reste plus qu'un joueur qui peut jouer, alors celui ci a gagné.
-		if(listeJoueur.size() > 1 && listeJoueur.getNbJoueursQuiPeuventJouer() == 1){
-			joueurActuelOuGagnant = listeJoueur.next();
-			finDePartie = true;
-		}
-		if(listeJoueur.getNbJoueursQuiPeuventJouer() == 0){
-			finDePartie = true;
-			joueurActuelOuGagnant = null;
-			listeJoueur.ResetScoreTousJoueurs();
-		}
-		if(finDePartie && joueurActuelOuGagnant != null){
-			afficherJoueurGagnant(joueurActuelOuGagnant);
-			listeJoueur.ResetScoreTousJoueurs();
-	    	updateComponents();
-		}
-		if(!finDePartie){
-			listeJoueur.next();
-		}
-		updateComponents();
 	}
 	
 	/**
@@ -347,15 +310,17 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Joueur");
-		builder.setMessage("Supprimer " + listeJoueur.getJoueur(arg2).nomJoueur);
+		builder.setMessage("Supprimer " + engine.getJoueur(arg2).nomJoueur);
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 				builder.setTitle("Suppression d'un joueur");
-				builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + listeJoueur.getJoueur(which) + " ?");
+				builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + engine.getJoueur(which) + " ?");
 				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				    public void onClick(DialogInterface dialog, int which) {
-				    	supprimerJoueurListe(which);
+				    	engine.supprimerJoueur(which);
+				    	ListView lv = (ListView) findViewById(R.id.listJoueurs);
+						  ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
 				    }
 				});
 				builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -369,7 +334,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	
 	private void updateComponents(){
 		// Si la partie a commencé
-		if(listeJoueur.partieCommencee()){
+		if(engine.partieCommencee()){
 			// On rend disponible le bouton d'annulation de score
 			ImageButton bAnnulerScore = (ImageButton) findViewById(R.id.annulerScore);
 			bAnnulerScore.setEnabled(true);
@@ -378,30 +343,23 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			ImageButton bAnnulerScore = (ImageButton) findViewById(R.id.annulerScore);
 			bAnnulerScore.setEnabled(false);
 			
-		}		
-		// Dans tous les cas, on notifie un changement dans la liste
-		ListView lv = (ListView) findViewById(R.id.listJoueurs);
-        ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
-        if(listeJoueur.size()!=0){
+		}
+        if(engine.getNbJoueurs()!=0){
     		// On check aussi le joueur actuel
     		TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
-            tvJoueurActuel.setText(listeJoueur.getJoueurActuel().nomJoueur); 
+            tvJoueurActuel.setText(engine.getJoueurActuel().nomJoueur); 
             // On ajoute le joueur actuel sur le bouton de score
             Button bAjoutScore = (Button) findViewById(R.id.scoreButton);
-            bAjoutScore.setText("Score de " + listeJoueur.getJoueurActuel().nomJoueur);
+            bAjoutScore.setText("Score de " + engine.getJoueurActuel().nomJoueur);
         }else{
         	TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
             tvJoueurActuel.setText(""); 
             Button bAjoutScore = (Button) findViewById(R.id.scoreButton);
             bAjoutScore.setText("Score");
         }
-	}
-
-	private void supprimerJoueurListe(int index){
-			listeJoueur.remove(index);
-		  ListView lv = (ListView) findViewById(R.id.listJoueurs);
-		  ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
-		  
+		// Dans tous les cas, on notifie un changement dans la liste
+		ListView lv = (ListView) findViewById(R.id.listJoueurs);
+        ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

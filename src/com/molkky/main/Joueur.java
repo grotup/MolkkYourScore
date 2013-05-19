@@ -54,11 +54,23 @@ public class Joueur {
 
 	public int ajouterScore(int score){
 		this.nbPoints += score;
+		this.listeScore.add(Integer.valueOf(score));
+		if(this.nbPoints>this.nbPointsVictoire){
+			dernierTourSupScore = true;
+			scoreSup = nbPoints;
+			this.nbPoints = scoreDepassement;
+		}
+		if(this.nbPoints==this.nbPointsVictoire){
+			this.isGagnant = true;
+		}
 		return this.nbPoints;
 	}
 	
-	private void ajouterLigne(){
+	void ajouterLigne(){
 		this.nbLignes++;		
+		if(nbLignes == nbLignesMax){
+			this.peutJouer = false;
+		}
 	}
 
 	public void annulerScore() {
@@ -73,7 +85,11 @@ public class Joueur {
 			}
 			// Si le dernier score est une ligne, on l'enlève
 			if(scoreARetirer == 0){
+				if(nbLignes == nbLignesMax){
+					this.peutJouer = true;
+				}
 				this.nbLignes--;
+				
 			}
 			listeScore.remove(listeScore.size()-1);
 		}

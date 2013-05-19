@@ -1,5 +1,7 @@
 package com.molkky.main;
 
+import java.util.ArrayList;
+
 import com.molkky.main.R;
 
 import android.content.Context;
@@ -11,11 +13,15 @@ import android.widget.TextView;
 
 public class JoueurListeAdapter extends BaseAdapter {
 
-	JoueurListe liste;
+	ArrayList<Joueur> liste;
 	LayoutInflater inflater;
 	
-	public JoueurListeAdapter(Context c, JoueurListe liste) {
+	public JoueurListeAdapter(Context c, ArrayList<Joueur> liste) {
 		this.inflater = LayoutInflater.from(c);
+		this.liste = liste;
+	}
+
+	public void setListe(ArrayList<Joueur> liste) {
 		this.liste = liste;
 	}
 
@@ -26,7 +32,7 @@ public class JoueurListeAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		return liste.getJoueur(position);
+		return liste.get(position);
 	}
 
 	@Override
@@ -47,9 +53,9 @@ public class JoueurListeAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.tvNomJoueur.setText(liste.getJoueur(position).nomJoueur);
-		holder.tvScore.setText(Integer.toString(liste.getJoueur(position).nbPoints));
-		holder.listeScore.setText(liste.getJoueur(position).getListeScore());
+		holder.tvNomJoueur.setText(liste.get(position).nomJoueur);
+		holder.tvScore.setText(Integer.toString(liste.get(position).nbPoints));
+		holder.listeScore.setText(liste.get(position).getListeScore());
 		
 		return convertView;
 	}

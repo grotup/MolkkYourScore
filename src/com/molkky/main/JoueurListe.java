@@ -6,12 +6,6 @@ public class JoueurListe{
 	
 	private ArrayList<Joueur> lesJoueurs;
 	private int indexJoueurActuel;
-	/**
-	 * Les variables issues des paramètres
-	 */
-	private int nbPointsVictoire;
-	private int nbLignesMax;
-	private int scoreDepassement;
 	
 	public JoueurListe(){
 		this.lesJoueurs = new ArrayList<Joueur>();

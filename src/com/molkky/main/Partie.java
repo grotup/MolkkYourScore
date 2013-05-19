@@ -2,8 +2,6 @@ package com.molkky.main;
 
 import java.util.ArrayList;
 
-import android.widget.Toast;
-
 /**
  * Classe qui gère la partie de Mölkky.
  * @author Sylvain
@@ -180,16 +178,17 @@ public class Partie {
 	 */
 	public Joueur addJoueur(Joueur j){
 		this.listeJoueur.add(j);
-		return this.listeJoueur.get(this.listeJoueur.size());
+		return this.listeJoueur.get(this.listeJoueur.size()-1);
 	}
 	
 	/**
 	 * Fonction qui ajoute un joueur à la partie
 	 * @param nomJoueur	Nom du joueur à ajouter
 	 */
-	public void addJoueur(String nomJoueur){
+	public Joueur addJoueur(String nomJoueur){
 		Joueur j = new Joueur(nomJoueur, nbPointsVictoire, nbLignesMax, scoreDepassement);
 		this.listeJoueur.add(j);
+		return this.listeJoueur.get(this.listeJoueur.size()-1);
 	}
 	
 	/**

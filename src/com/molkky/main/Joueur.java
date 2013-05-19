@@ -2,9 +2,6 @@ package com.molkky.main;
 
 import java.util.ArrayList;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 public class Joueur {
 	public int nbPoints = 0;
 	public int nbLignes = 0;

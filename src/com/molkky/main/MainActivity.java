@@ -1,11 +1,8 @@
 package com.molkky.main;
 
-import java.io.ObjectOutputStream.PutField;
-
 import model.Joueur;
 import model.JoueurListeAdapter;
 import model.Persistence;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -32,7 +29,6 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener, OnItemLongClickListener{
 
-	private static final int CODE_RETOUR_LISTEJOUEUR = 0;
 	private static final int CODE_RETOUR_OPTION = 1;
 	// La partie
 	private Partie engine;
@@ -42,9 +38,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		setContentView(R.layout.activity_main);
 		// On crée une partie
 		creerPartie();
+		// Si on a des préférences, on ajoute les joueurs puis on reset les préférences
 		chargerPersistence();
 		resetPreference();
-		// Si on a des préférences, on ajoute les joueurs.
+		// On init les components.
 		initComponents();
 		updateComponents();
 	}
@@ -120,9 +117,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 
 	private void creerPartie(){
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		this.engine = new Partie(	Integer.valueOf(sharedPref.getString("nbPoints", "50")), 
-										Integer.valueOf(sharedPref.getString("nbLignes", "3")), 
-										Integer.valueOf(sharedPref.getString("scoreDepassement", "25"))
+		this.engine = new Partie(	
+					Integer.valueOf(sharedPref.getString("nbPoints", "50")), 
+					Integer.valueOf(sharedPref.getString("nbLignes", "3")), 
+					Integer.valueOf(sharedPref.getString("scoreDepassement", "25"))
 									);
 	}
 	

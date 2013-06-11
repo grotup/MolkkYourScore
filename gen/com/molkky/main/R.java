@@ -47,15 +47,18 @@ public final class R {
         public static final int button2=0x7f0a0001;
         public static final int button3=0x7f0a0002;
         public static final int button4=0x7f0a0003;
+        public static final int editText1=0x7f0a000d;
         public static final int joueurActuel=0x7f0a0005;
         public static final int labelJoueur=0x7f0a0004;
         public static final int listJoueurs=0x7f0a0006;
-        public static final int listScore=0x7f0a000c;
+        public static final int listScore=0x7f0a000f;
+        public static final int listView1=0x7f0a000e;
         public static final int listeScore=0x7f0a000b;
-        public static final int menu_ajouter_joueur=0x7f0a000d;
-        public static final int menu_nouvellePartie=0x7f0a000e;
-        public static final int menu_options=0x7f0a000f;
+        public static final int menu_ajouter_joueur=0x7f0a0010;
+        public static final int menu_nouvellePartie=0x7f0a0011;
+        public static final int menu_options=0x7f0a0012;
         public static final int scoreButton=0x7f0a0008;
+        public static final int textView1=0x7f0a000c;
         public static final int tvNomJoueur=0x7f0a0009;
         public static final int tvScore=0x7f0a000a;
     }
@@ -63,7 +66,8 @@ public final class R {
         public static final int accueil_layout=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int itemjoueur=0x7f030002;
-        public static final int score_view=0x7f030003;
+        public static final int liste_joueurs_layout=0x7f030003;
+        public static final int score_view=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f090000;

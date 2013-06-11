@@ -1,4 +1,6 @@
-package com.molkky.main;
+package model;
+
+import com.molkky.main.Partie;
 
 import android.content.Context;
 import android.content.SharedPreferences;

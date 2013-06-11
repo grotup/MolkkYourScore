@@ -1,6 +1,10 @@
 package com.molkky.main;
 
-import java.util.prefs.Preferences;
+import java.io.ObjectOutputStream.PutField;
+
+import model.Joueur;
+import model.JoueurListeAdapter;
+import model.Persistence;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,7 +32,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener, OnItemLongClickListener{
 
-	private static int CODE_RETOUR = 1;
+	private static final int CODE_RETOUR_LISTEJOUEUR = 0;
+	private static final int CODE_RETOUR_OPTION = 1;
 	// La partie
 	private Partie engine;
 	
@@ -44,12 +49,16 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		updateComponents();
 	}
 	
-	protected void onStop(){
-		super.onStop();
+	protected void onSaveInstanceState(Bundle outState){
+		super.onSaveInstanceState(outState);
 		// Quand on tue l'application, on enregistre le nom des joueurs déjà créés
 		if(engine.getNbJoueurs() != 0){
 			Persistence.savePartie(this.engine, getApplicationContext());
 		}
+	}
+	
+	protected void onStop(){
+		super.onStop();
 	}
 
 	private void initComponents() {
@@ -269,8 +278,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Toast.makeText(this, "Si des préférences ont été modifiées, elles seront prises en compte à la prochaine réinitialisation.", Toast.LENGTH_SHORT).show();	 
 		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == CODE_RETOUR_OPTION){
+			Toast.makeText(this, "Si des préférences ont été modifiées, elles seront prises en compte à la prochaine réinitialisation.", Toast.LENGTH_SHORT).show();	 
+		}
 	}
 	
 	@Override
@@ -292,13 +303,15 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 				
 				
 			case R.id.menu_ajouter_joueur:
+//				Intent i = new Intent(this, ListeJoueursActivity.class);
+//				i.putExtra("listeJoueurs", this.engine.getListeJoueur());
+//				startActivityForResult(i, CODE_RETOUR_LISTEJOUEUR);
 				ajouterJoueur();
 				break;
 				
 			case R.id.menu_options:
-				Persistence.savePartie(engine, getApplicationContext());
-				Intent i = new Intent(this, SettingsActivity.class);
-				startActivityForResult(i, CODE_RETOUR);
+				Intent i2 = new Intent(this, SettingsActivity.class);
+				startActivityForResult(i2, CODE_RETOUR_OPTION);
 		}
 		return false;
 	}

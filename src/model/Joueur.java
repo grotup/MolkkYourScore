@@ -1,8 +1,10 @@
-package com.molkky.main;
+package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Joueur {
+public class Joueur implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public int nbPoints = 0;
 	public int nbLignes = 0;
 	public String nomJoueur;
@@ -63,7 +65,7 @@ public class Joueur {
 		return this.nbPoints;
 	}
 	
-	void ajouterLigne(){
+	public void ajouterLigne(){
 		this.nbLignes++;		
 		if(nbLignes == nbLignesMax){
 			this.peutJouer = false;
@@ -104,5 +106,96 @@ public class Joueur {
 			valRet += tmp + " - ";
 		}
 		return valRet;
+	}
+	
+	/*
+	 * Méthodes de serializationB
+	 */
+	public int getNbPoints() {
+		return nbPoints;
+	}
+
+	public void setNbPoints(int nbPoints) {
+		this.nbPoints = nbPoints;
+	}
+
+	public int getNbLignes() {
+		return nbLignes;
+	}
+
+	public void setNbLignes(int nbLignes) {
+		this.nbLignes = nbLignes;
+	}
+
+	public String getNomJoueur() {
+		return nomJoueur;
+	}
+
+	public void setNomJoueur(String nomJoueur) {
+		this.nomJoueur = nomJoueur;
+	}
+
+	public boolean isGagnant() {
+		return isGagnant;
+	}
+
+	public void setGagnant(boolean isGagnant) {
+		this.isGagnant = isGagnant;
+	}
+
+	public boolean isPeutJouer() {
+		return peutJouer;
+	}
+
+	public void setPeutJouer(boolean peutJouer) {
+		this.peutJouer = peutJouer;
+	}
+
+	public boolean isDernierTourSupScore() {
+		return dernierTourSupScore;
+	}
+
+	public void setDernierTourSupScore(boolean dernierTourSupScore) {
+		this.dernierTourSupScore = dernierTourSupScore;
+	}
+
+	public int getScoreSup() {
+		return scoreSup;
+	}
+
+	public void setScoreSup(int scoreSup) {
+		this.scoreSup = scoreSup;
+	}
+
+	public int getNbPointsVictoire() {
+		return nbPointsVictoire;
+	}
+
+	public void setNbPointsVictoire(int nbPointsVictoire) {
+		this.nbPointsVictoire = nbPointsVictoire;
+	}
+
+	public int getNbLignesMax() {
+		return nbLignesMax;
+	}
+
+	public void setNbLignesMax(int nbLignesMax) {
+		this.nbLignesMax = nbLignesMax;
+	}
+
+	public int getScoreDepassement() {
+		return scoreDepassement;
+	}
+
+	public void setScoreDepassement(int scoreDepassement) {
+		this.scoreDepassement = scoreDepassement;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setListeScore(ArrayList<Integer> listeScore) {
+		this.listeScore = listeScore;
 	}
 }

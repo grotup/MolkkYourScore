@@ -3,7 +3,7 @@
 
     <string name="app_name">Mölkk your score !</string>
     <string name="Nouvelle_partie">Reinitialiser</string>
-    <string name="Nouveau_joueur">Nouveau joueur</string>
+    <string name="Nouveau_joueur">Ajouter joueur</string>
     <string name="Joueur_actuel_label">Tour de :</string>
     <string name="Bouton_annuler_description">Bouton annuler</string>
     <string name="Score_bouton">Score</string>

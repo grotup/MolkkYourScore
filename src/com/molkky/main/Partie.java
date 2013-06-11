@@ -2,13 +2,14 @@ package com.molkky.main;
 
 import java.util.ArrayList;
 
+import model.Joueur;
+
 /**
  * Classe qui gère la partie de Mölkky.
  * @author Sylvain
  *
  */
 public class Partie {
-
 	/**
 	 * Options de partie
 	 */

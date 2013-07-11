@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	private static final int CODE_RETOUR_OPTION = 1;
 	// La partie
 	private Partie engine;
+	boolean finPartie = false;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,6 +72,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
 		JoueurListeAdapter adapter = new JoueurListeAdapter(this, this.engine.getListeJoueur());
 		listJoueur.setAdapter(adapter);
+		
+		Button nouvellePartie = (Button) findViewById(R.id.nouvellePartie);
+		nouvellePartie.setOnClickListener(this);
+		nouvellePartie.setEnabled(false);
 
 		listJoueur.setOnItemLongClickListener(this);
 		listJoueur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,8 +116,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			Button ajoutScore = (Button) findViewById(R.id.scoreButton);
 			ajoutScore.setEnabled(true);
 		}
-        
-		
 	}
 
 	private void creerPartie(){
@@ -189,6 +192,22 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 					updateComponents();
 			    }
 			});
+			builder.setNegativeButton("Annuler dernier coup", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					engine.annulerScore();
+					updateComponents();
+				}
+			});
+			builder.setNeutralButton("Voir partie", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					finPartie = true;
+					Button nouvellePartie = (Button) findViewById(R.id.nouvellePartie);
+					nouvellePartie.setEnabled(true);
+					updateComponents();
+				}
+			});
 			builder.show();
 		}
 	}
@@ -231,7 +250,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			// On grise le bouton d'annulation de score
 			ImageButton bAnnulerScore = (ImageButton) findViewById(R.id.annulerScore);
 			bAnnulerScore.setEnabled(false);
-			
 		}
         if(engine.getNbJoueurs()!=0){
     		// On check aussi le joueur actuel
@@ -261,9 +279,10 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			builder.setItems(liste, new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {
 			    	if(which == 0)
-						Toast.makeText(MainActivity.this, "Le joueur " + engine.getJoueurActuel().nomJoueur + " a " + (engine.getJoueurActuel().nbLignes + 1) + " ligne(s)", Toast.LENGTH_LONG).show();
+						Toast.makeText(MainActivity.this, "Le joueur " + engine.getJoueurActuel().nomJoueur + " a " + (engine.getJoueurActuel().nbLignes + 1) + " ligne(s)", Toast.LENGTH_SHORT).show();
 			    	engine.ajouterScore(which);
 					verifsFinDeTour();
+					engine.joueurSuivant();
 					updateComponents();
 			    }
 			});
@@ -272,6 +291,16 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		if(arg0 == (ImageButton)findViewById(R.id.annulerScore)){
 			engine.annulerScore();
 			updateComponents();
+		}
+		if(arg0 == (Button)findViewById(R.id.nouvellePartie)){
+			if(finPartie){
+				engine.ResetScoreTousJoueurs();
+				ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
+		    	JoueurListeAdapter adapter = new JoueurListeAdapter(MainActivity.this, engine.getListeJoueur());
+				listJoueur.setAdapter(adapter);
+				finPartie = false;
+				findViewById(R.id.nouvellePartie).setEnabled(false);
+			}
 		}
 	}
 	
@@ -292,18 +321,25 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_nouvellePartie:
-				creerPartie();
-				initComponents();
-				ListView lv = (ListView) findViewById(R.id.listJoueurs);
-				((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();	
-				updateComponents();
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setTitle("Réinitialiser");
+				builder.setMessage("Êtes vous sûrs de vouloir réinitialiser ?");
+				builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int which) {
+				    	creerPartie();
+						initComponents();
+						ListView lv = (ListView) findViewById(R.id.listJoueurs);
+						((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();	
+						updateComponents();
+				    }
+				});
+				builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int which) {}
+				});
+				builder.show();
 				break;
-				
-				
+								
 			case R.id.menu_ajouter_joueur:
-//				Intent i = new Intent(this, ListeJoueursActivity.class);
-//				i.putExtra("listeJoueurs", this.engine.getListeJoueur());
-//				startActivityForResult(i, CODE_RETOUR_LISTEJOUEUR);
 				ajouterJoueur();
 				break;
 				

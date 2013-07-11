@@ -76,6 +76,7 @@ public class Joueur implements Serializable{
 		if(listeScore.size() != 0){
 			int scoreARetirer = listeScore.get(listeScore.size()-1);
 			if(dernierTourSupScore){
+				// Si le dernier coup était au dessus de 50, on retire du score au dessus de 50 le dernier coup
 				this.nbPoints = scoreSup - scoreARetirer;
 				dernierTourSupScore = false;
 			}else{
@@ -84,13 +85,23 @@ public class Joueur implements Serializable{
 			}
 			// Si le dernier score est une ligne, on l'enlève
 			if(scoreARetirer == 0){
-				if(nbLignes == nbLignesMax){
+				if(nbLignes != nbLignesMax){
 					this.peutJouer = true;
 				}
 				this.nbLignes--;
-				
 			}
 			listeScore.remove(listeScore.size()-1);
+			//Enfin, on recompte les lignes
+			int tmpNbLignes = 0;
+			for(int i = 0; i < this.listeScore.size(); i++){
+				if(this.listeScore.get(i) == 0){
+					tmpNbLignes++;
+				}else{
+					tmpNbLignes=0;
+				}
+			}
+			this.nbLignes=tmpNbLignes;
+			System.out.println(this.nbLignes);
 		}
 	}
 

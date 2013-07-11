@@ -43,7 +43,6 @@ public final class R {
     }
     public static final class id {
         public static final int annulerScore=0x7f0a0007;
-        public static final int button1=0x7f0a0000;
         public static final int button2=0x7f0a0001;
         public static final int button3=0x7f0a0002;
         public static final int button4=0x7f0a0003;
@@ -57,6 +56,7 @@ public final class R {
         public static final int menu_ajouter_joueur=0x7f0a0010;
         public static final int menu_nouvellePartie=0x7f0a0011;
         public static final int menu_options=0x7f0a0012;
+        public static final int nouvellePartie=0x7f0a0000;
         public static final int scoreButton=0x7f0a0008;
         public static final int textView1=0x7f0a000c;
         public static final int tvNomJoueur=0x7f0a0009;

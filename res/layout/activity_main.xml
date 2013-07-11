@@ -61,6 +61,14 @@
                 android:text="Score" 
             	android:textColor="@android:color/white"/>
 
+            <Button
+                android:id="@+id/nouvellePartie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:text="+" />
+
     </LinearLayout>
 
 </TableLayout>

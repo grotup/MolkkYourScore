@@ -21,11 +21,16 @@ public class Partie {
 	 */
 	private ArrayList<Joueur> listeJoueur;
 	private int indexJoueurActuel;
+	private Joueur joueurGagnant;
 	/**
 	 * Etat de la partie
 	 */
 	public boolean finDePartie = false;
 	public boolean partieCommence = false;
+	/**
+	 * Liste des coups
+	 */
+	private ArrayList<Coup> listeCoups;
 
 	/**
 	 * Constructeur.
@@ -35,6 +40,7 @@ public class Partie {
 	 */
 	public Partie(Integer nbPointsVictoire, Integer nbLignes, Integer scoreDepassement){
 		this.listeJoueur = new ArrayList<Joueur>();
+		this.listeCoups = new ArrayList<Coup>();
 		this.nbPointsVictoire = nbPointsVictoire;
 		this.nbLignesMax = nbLignes;
 		this.scoreDepassement = scoreDepassement;
@@ -79,7 +85,10 @@ public class Partie {
 		listeJoueur.get(indexJoueurActuel).ajouterScore(score);
 		if(Integer.valueOf(score) == 0){
 			listeJoueur.get(indexJoueurActuel).ajouterLigne();
+		}else{
+			listeJoueur.get(indexJoueurActuel).setNbLignes(0);
 		}
+		this.listeCoups.add(new Coup(this.indexJoueurActuel, score));
 		finDeTour();
 	}
 
@@ -103,9 +112,16 @@ public class Partie {
 		if(getNbJoueursPeuventJoueur() == 1 && listeJoueur.size() > 1){
 			finDePartie = true;
 		}
-		if(!finDePartie){
-			this.indexJoueurActuel = this.next();
+	}
+	
+	public Joueur getJoueurGagnant(){
+		Joueur valRet = listeJoueur.get(indexJoueurActuel);
+		for(int i = 0 ; i < listeJoueur.size()-1 ; i++){
+			if(listeJoueur.get(i).isGagnant){
+				valRet = listeJoueur.get(i); 
+			}
 		}
+		return valRet;
 	}
 	
 	/**
@@ -207,24 +223,12 @@ public class Partie {
 	 * fonction qui annule le dernier score ajouté.
 	 */
 	public void annulerScore(){
-		Joueur joueurAnnuler = getJoueurAvant();
+		this.indexJoueurActuel = this.listeCoups.get(this.listeCoups.size()-1).getleJoueur();
+		Joueur joueurAnnuler = this.listeJoueur.get(indexJoueurActuel);
 		joueurAnnuler.annulerScore();
+		this.listeCoups.remove(this.listeCoups.size()-1);
 	}
 	
-	/**
-	 * fonction qui retourne le dernier joueur qui a joué
-	 * @return le dernier joueur qui a joué
-	 */
-	private Joueur getJoueurAvant(){
-		if(indexJoueurActuel != 0){
-			indexJoueurActuel--;
-			return listeJoueur.get(indexJoueurActuel);
-		}else{
-			indexJoueurActuel = listeJoueur.size() -1;
-			return listeJoueur.get(indexJoueurActuel);
-		}
-	}
-
 	/**
 	 * Fonction qui retourne l'objet joueur actuel
 	 * @return le joueur actuel (objet)
@@ -243,6 +247,10 @@ public class Partie {
 
 	public int getJoueurActuelIndex() {
 		return indexJoueurActuel;
+	}
+
+	public void joueurSuivant() {
+		this.indexJoueurActuel = this.next();
 	}
 	
 	

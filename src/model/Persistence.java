@@ -43,7 +43,6 @@ public class Persistence {
 					}
 				}
 				engine.setIndexJoueurActuel(sp.getInt("joueurActuel", 0));
-				engine.partieCommence = true;
 			}
 			
 		}catch(Exception e){

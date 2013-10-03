@@ -2,6 +2,8 @@ package com.molkky.main;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import model.Joueur;
 
 /**
@@ -26,7 +28,6 @@ public class Partie {
 	 * Etat de la partie
 	 */
 	public boolean finDePartie = false;
-	public boolean partieCommence = false;
 	/**
 	 * Liste des coups
 	 */
@@ -68,11 +69,14 @@ public class Partie {
 	 */
 	public boolean partieCommencee(){
 		boolean valRet = false;
+		Log.w("partieCommencee", "Nombre de joueurs : " + (String) Integer.toString(listeJoueur.size()));
 		for(int i = 0 ; i < listeJoueur.size() ; i++){
 			if(listeJoueur.get(i).listeScore.size() != 0){
+				Log.w("partieCommencee", "Nous sommes, dans le IF.");
 				valRet = true;
 			}
 		}
+		Log.w("partieCommcee", "Valeur de retour :" + (String) Boolean.toString(valRet));
 		return valRet;
 	}
 	
@@ -154,7 +158,6 @@ public class Partie {
 		tmp.add(listeJoueur.get(0));
 		this.listeJoueur = tmp;
 		indexJoueurActuel = 0;
-		this.partieCommence = false;
 		this.finDePartie = false;
 	}
 	

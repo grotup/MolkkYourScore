@@ -10,6 +10,7 @@ package com.molkky.main;
 public final class R {
     public static final class array {
         public static final int NbPointsV=0x7f050001;
+        public static final int menuJoueurSelection=0x7f050006;
         public static final int nbLignes=0x7f050002;
         public static final int nbLignesV=0x7f050003;
         public static final int nbPoints=0x7f050000;

@@ -38,7 +38,8 @@ public class Persistence {
 					if(objJoueur.length > 1){
 						String[] scores = objJoueur[1].split(" - ");
 						for(int j = 0 ; j < scores.length ; j++){
-							joueur.ajouterScore(scores[j]);
+							int score = Integer.getInteger(scores[j]);
+							joueur.ajouterScore(score);
 						}
 					}
 				}

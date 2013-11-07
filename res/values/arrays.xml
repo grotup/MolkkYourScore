@@ -64,4 +64,8 @@
  		<item>40</item>
  		<item>45</item>    
     </string-array>
+    <string-array name="menuJoueurSelection">
+        <item >Modifier</item>
+        <item >Supprimer</item>
+    </string-array>
 </resources>

@@ -78,27 +78,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		nouvellePartie.setEnabled(false);
 
 		listJoueur.setOnItemLongClickListener(this);
-		listJoueur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-		      public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
-		    	  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-					builder.setTitle("Suppression d'un joueur");
-					builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + engine.getJoueur(position).nomJoueur + " ?");
-					builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int which) {
-					    	if(!engine.partieCommencee()){
-					    		engine.supprimerJoueur(position);
-					    		view.setAlpha(1);
-					    		updateComponents();
-					    	}
-					    }
-					});
-					builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int which) {}
-					});
-					builder.show();
-		      };
-
-		    });
 		TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
         tvJoueurActuel.setText("");
 	}
@@ -153,7 +132,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		// Set up the buttons
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int which) {
-		    	if(!engine.partieCommence){
+		    	if(!engine.partieCommencee()){
 			    	engine.addJoueur(input.getText().toString());
 			        TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
 			        tvJoueurActuel.setText(engine.getJoueur(0).nomJoueur);
@@ -264,6 +243,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
             tvJoueurActuel.setText(""); 
             Button bAjoutScore = (Button) findViewById(R.id.scoreButton);
             bAjoutScore.setText("Score");
+            bAjoutScore.setEnabled(false);
         }
 		// Dans tous les cas, on notifie un changement dans la liste
 		ListView lv = (ListView) findViewById(R.id.listJoueurs);
@@ -340,7 +320,17 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 				break;
 								
 			case R.id.menu_ajouter_joueur:
-				ajouterJoueur();
+				if(this.engine.partieCommencee()){
+					AlertDialog.Builder builderErreurPartieCommencee = new AlertDialog.Builder(MainActivity.this);
+					builderErreurPartieCommencee.setTitle("Erreur");
+					builderErreurPartieCommencee.setMessage("Impossible d'ajouter un joueur, la partie est commencée.");
+					builderErreurPartieCommencee.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int which) {}
+					});
+					builderErreurPartieCommencee.show();
+				}else{
+					ajouterJoueur();
+				}
 				break;
 				
 			case R.id.menu_options:
@@ -350,28 +340,65 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		return false;
 	}
 
-	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	public boolean onItemLongClick(AdapterView<?> arg0, final View arg1, final int arg2, long arg3) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Joueur");
-		builder.setMessage("Supprimer " + engine.getJoueur(arg2).nomJoueur);
-		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-				builder.setTitle("Suppression d'un joueur");
-				builder.setMessage("Êtes vous sûrs de vouloir supprimer le joueur " + engine.getJoueur(which) + " ?");
-				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				    public void onClick(DialogInterface dialog, int which) {
-				    	engine.supprimerJoueur(which);
-				    	ListView lv = (ListView) findViewById(R.id.listJoueurs);
-						  ((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
-				    }
-				});
-				builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-				    public void onClick(DialogInterface dialog, int which) {}
-				});
-				builder.show();
-			}
-		});
+		builder.setTitle(engine.getJoueur(arg2).getNomJoueur());
+		
+		builder.setItems(R.array.menuJoueurSelection, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            	switch(which){
+            		case 0 :
+            			
+            			final Joueur joueurAModifier = engine.getJoueur(arg2);
+            			
+            			AlertDialog.Builder builderModifier = new AlertDialog.Builder(MainActivity.this);
+            			builderModifier.setTitle("Modifier joueur");
+
+            			// Set up the input
+            			final EditText input = new EditText(MainActivity.this);
+            			InputFilter[] filterArray = new InputFilter[1];
+            			filterArray[0] = new InputFilter.LengthFilter(10);
+            			input.setFilters(filterArray);
+            			// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            			input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+            			input.append(joueurAModifier.getNomJoueur()); 	
+            			// Set up the buttons
+            			builderModifier.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            			    public void onClick(DialogInterface dialog, int which) {
+            			    	joueurAModifier.setNomJoueur(input.getText().toString());
+            			    	updateComponents();
+            			    	Toast.makeText(MainActivity.this, "Joueur modifié", Toast.LENGTH_SHORT).show();
+            			    	ListView lv = (ListView) findViewById(R.id.listJoueurs);
+          					  	((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
+            			    }
+            			});
+            			builderModifier.setView(input);
+            			builderModifier.show();
+            			break;
+            		
+            		case 1 :
+            			AlertDialog.Builder builderSupprimer = new AlertDialog.Builder(MainActivity.this);
+            			builderSupprimer.setMessage("Supprimer " + engine.getJoueur(arg2).nomJoueur);
+            			builderSupprimer.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            				public void onClick(DialogInterface dialog, int which) {	
+            			    	if(!engine.partieCommencee()){
+            			    		engine.supprimerJoueur(arg2);
+            			    		arg1.setAlpha(1);
+            			    		updateComponents();
+            			    	}
+            			    	ListView lv = (ListView) findViewById(R.id.listJoueurs);
+            			    	((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
+        				    }	
+            			});
+            			builderSupprimer.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            			    public void onClick(DialogInterface dialog, int which) {}
+            			});
+            			builderSupprimer.show();
+            			break;
+            	}
+            }
+        });
+		builder.show();
 		return false;
 	}
 }

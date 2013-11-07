@@ -69,14 +69,11 @@ public class Partie {
 	 */
 	public boolean partieCommencee(){
 		boolean valRet = false;
-		Log.w("partieCommencee", "Nombre de joueurs : " + (String) Integer.toString(listeJoueur.size()));
 		for(int i = 0 ; i < listeJoueur.size() ; i++){
 			if(listeJoueur.get(i).listeScore.size() != 0){
-				Log.w("partieCommencee", "Nous sommes, dans le IF.");
 				valRet = true;
 			}
 		}
-		Log.w("partieCommcee", "Valeur de retour :" + (String) Boolean.toString(valRet));
 		return valRet;
 	}
 	

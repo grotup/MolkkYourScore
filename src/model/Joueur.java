@@ -9,7 +9,7 @@ public class Joueur implements Serializable{
 	public int nbLignes = 0;
 	public String nomJoueur;
 	public ArrayList<Integer> listeScore = new ArrayList<Integer>();
-	public boolean isGagnant = false;;
+	public boolean isGagnant = false;
 	public boolean peutJouer = true;
 	private boolean dernierTourSupScore = false;
 	private int scoreSup = -1;
@@ -27,31 +27,16 @@ public class Joueur implements Serializable{
 		this.scoreDepassement=scoreDepassement;
 	}
 	
-	public int ajouterScore(String score){
-		int leScore = Integer.valueOf(score);
-		if(leScore == 0){
-			this.ajouterLigne();
-		}else{
-			this.resetLignes();
-		}
-		this.nbPoints += leScore;
-		this.listeScore.add(Integer.valueOf(score));
-		if(this.nbPoints>this.nbPointsVictoire){
-			dernierTourSupScore = true;
-			scoreSup = nbPoints;
-			this.nbPoints = scoreDepassement;
-		}
-		if(this.nbPoints==this.nbPointsVictoire){
-			this.isGagnant = true;
-		}
-		return this.nbPoints;
-	}
-	
 	private void resetLignes() {
 		this.nbLignes = 0;
 	}
 
 	public int ajouterScore(int score){
+		if(score == 0){
+			this.ajouterLigne();
+		}else{
+			this.resetLignes();
+		}
 		this.nbPoints += score;
 		this.listeScore.add(Integer.valueOf(score));
 		if(this.nbPoints>this.nbPointsVictoire){

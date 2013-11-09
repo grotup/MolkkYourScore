@@ -1,8 +1,8 @@
-package com.molkky.main;
+package molkky.android.main;
 
 import java.util.ArrayList;
 
-import model.Joueur;
+import molkky.android.model.Joueur;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ public class ListeJoueursActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		@SuppressWarnings("unchecked")
 		ArrayList<Joueur> joueurs = (ArrayList<Joueur>) getIntent().getExtras().getSerializable("listeJoueurs");
 		if(joueurs.size() > 0){
 			Toast.makeText(getApplicationContext(), "Coucou ! ",Toast.LENGTH_SHORT).show();

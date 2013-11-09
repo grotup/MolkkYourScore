@@ -1,8 +1,11 @@
-package com.molkky.main;
+package molkky.android.main;
 
-import model.Joueur;
-import model.JoueurListeAdapter;
-import model.Persistence;
+import com.google.ads.*;
+import com.molkky.main.R;
+
+import molkky.android.model.Joueur;
+import molkky.android.model.JoueurListeAdapter;
+import molkky.android.model.Persistence;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +49,19 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		// On init les components.
 		initComponents();
 		updateComponents();
+		
+		// Create the adView
+		AdView  adView = new AdView(this, AdSize.BANNER, "ca-app-pub-6559258480031885/3966197652");
+
+	    // Lookup your LinearLayout assuming it's been given
+	    // the attribute android:id="@+id/mainLayout"
+	    LinearLayout layout = (LinearLayout)findViewById(R.id.panelHaut);
+
+	    // Add the adView to it
+	    layout.addView(adView);
+
+	    // Initiate a generic request to load it with an ad
+	    adView.loadAd(new AdRequest());
 	}
 	
 	protected void onSaveInstanceState(Bundle outState){
@@ -72,14 +89,13 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
 		JoueurListeAdapter adapter = new JoueurListeAdapter(this, this.engine.getListeJoueur());
 		listJoueur.setAdapter(adapter);
-		
-		Button nouvellePartie = (Button) findViewById(R.id.nouvellePartie);
-		nouvellePartie.setOnClickListener(this);
-		nouvellePartie.setEnabled(false);
 
 		listJoueur.setOnItemLongClickListener(this);
 		TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
         tvJoueurActuel.setText("");
+        
+        LinearLayout panelBas = (LinearLayout) findViewById(R.id.panelBas);
+		panelBas.setVisibility(View.GONE);
 	}
 	
 	/**
@@ -231,6 +247,9 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			bAnnulerScore.setEnabled(false);
 		}
         if(engine.getNbJoueurs()!=0){
+        	// Si on a des joueurs, le panelBas est visible
+        	LinearLayout panelBas = (LinearLayout) findViewById(R.id.panelBas);
+			panelBas.setVisibility(View.VISIBLE);
     		// On check aussi le joueur actuel
     		TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
             tvJoueurActuel.setText(engine.getJoueurActuel().nomJoueur); 
@@ -239,6 +258,9 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
             bAjoutScore.setText("Score de " + engine.getJoueurActuel().nomJoueur);
             bAjoutScore.setEnabled(true);
         }else{
+        	// Si on n'a pas de joueurs, le panelBas est invisible
+        	LinearLayout panelBas = (LinearLayout) findViewById(R.id.panelBas);
+			panelBas.setVisibility(View.GONE);
         	TextView tvJoueurActuel = (TextView) findViewById(R.id.joueurActuel);
             tvJoueurActuel.setText(""); 
             Button bAjoutScore = (Button) findViewById(R.id.scoreButton);

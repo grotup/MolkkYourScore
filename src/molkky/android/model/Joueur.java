@@ -1,4 +1,4 @@
-package model;
+package molkky.android.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

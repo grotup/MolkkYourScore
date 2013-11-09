@@ -1,12 +1,9 @@
-package model;
+package molkky.android.model;
 
 import java.util.ArrayList;
 
 
 import com.molkky.main.R;
-import com.molkky.main.R.id;
-import com.molkky.main.R.layout;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

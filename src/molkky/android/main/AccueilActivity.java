@@ -1,4 +1,4 @@
-package com.molkky.main;
+package molkky.android.main;
 
 import android.app.Activity;
 

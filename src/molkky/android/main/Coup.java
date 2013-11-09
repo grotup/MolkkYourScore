@@ -1,4 +1,4 @@
-package com.molkky.main;
+package molkky.android.main;
 
 /**
  * Classe représentant un lancer de Molkky

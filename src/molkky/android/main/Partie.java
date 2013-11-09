@@ -1,10 +1,8 @@
-package com.molkky.main;
+package molkky.android.main;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
-import model.Joueur;
+import molkky.android.model.Joueur;
 
 /**
  * Classe qui gère la partie de Mölkky.
@@ -23,7 +21,6 @@ public class Partie {
 	 */
 	private ArrayList<Joueur> listeJoueur;
 	private int indexJoueurActuel;
-	private Joueur joueurGagnant;
 	/**
 	 * Etat de la partie
 	 */

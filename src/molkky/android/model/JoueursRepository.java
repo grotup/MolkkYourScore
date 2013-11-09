@@ -1,4 +1,4 @@
-package model;
+package molkky.android.model;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class JoueursRepository extends Repository {
 	}
 	
 	@Override
-	public List GetAll() {
+	public List<?> GetAll() {
 		Cursor cursor = maBDD.query(JoueurOpenHelper.JOUEUR_TABLE_NAME, 
 									new String[] {	JoueurOpenHelper.COLUMN_ID,
 													JoueurOpenHelper.COLUMN_NAME}, null, null, null, null, null);
@@ -44,7 +44,7 @@ public class JoueursRepository extends Repository {
 	}
 
 	@Override
-	public List ConvertCursorToListObject(Cursor c) {
+	public List<?> ConvertCursorToListObject(Cursor c) {
 		// TODO Auto-generated method stub
 		return null;
 	}

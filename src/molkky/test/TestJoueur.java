@@ -1,8 +1,8 @@
-package test;
+package molkky.test;
 
 import static org.junit.Assert.*;
 
-import model.Joueur;
+import molkky.android.model.Joueur;
 
 import org.junit.Test;
 

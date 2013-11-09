@@ -8,14 +8,18 @@
 package com.molkky.main;
 
 public final class R {
+    public static final class anim {
+        public static final int panel_bas_slide_in=0x7f040000;
+        public static final int panel_bas_slide_out=0x7f040001;
+    }
     public static final class array {
-        public static final int NbPointsV=0x7f050001;
-        public static final int menuJoueurSelection=0x7f050006;
-        public static final int nbLignes=0x7f050002;
-        public static final int nbLignesV=0x7f050003;
-        public static final int nbPoints=0x7f050000;
-        public static final int nbScoreDepassement=0x7f050004;
-        public static final int nbScoreDepassementV=0x7f050005;
+        public static final int NbPointsV=0x7f060001;
+        public static final int menuJoueurSelection=0x7f060006;
+        public static final int nbLignes=0x7f060002;
+        public static final int nbLignesV=0x7f060003;
+        public static final int nbPoints=0x7f060000;
+        public static final int nbScoreDepassement=0x7f060004;
+        public static final int nbScoreDepassementV=0x7f060005;
     }
     public static final class attr {
     }
@@ -26,15 +30,15 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f060000;
-        public static final int activity_vertical_margin=0x7f060001;
+        public static final int activity_horizontal_margin=0x7f070000;
+        public static final int activity_vertical_margin=0x7f070001;
     }
     public static final class drawable {
         public static final int annuler_icone_16=0x7f020000;
         public static final int annuler_icone_48=0x7f020001;
         public static final int av_replay=0x7f020002;
         public static final int contentnew=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
+        public static final int icon=0x7f020004;
         public static final int interdit=0x7f020005;
         public static final int lignes0=0x7f020006;
         public static final int lignes1=0x7f020007;
@@ -43,25 +47,27 @@ public final class R {
         public static final int socialaddperson=0x7f02000a;
     }
     public static final class id {
-        public static final int annulerScore=0x7f0a0007;
-        public static final int button2=0x7f0a0001;
-        public static final int button3=0x7f0a0002;
-        public static final int button4=0x7f0a0003;
-        public static final int editText1=0x7f0a000d;
-        public static final int joueurActuel=0x7f0a0005;
-        public static final int labelJoueur=0x7f0a0004;
-        public static final int listJoueurs=0x7f0a0006;
-        public static final int listScore=0x7f0a000f;
-        public static final int listView1=0x7f0a000e;
-        public static final int listeScore=0x7f0a000b;
-        public static final int menu_ajouter_joueur=0x7f0a0010;
-        public static final int menu_nouvellePartie=0x7f0a0011;
-        public static final int menu_options=0x7f0a0012;
-        public static final int nouvellePartie=0x7f0a0000;
-        public static final int scoreButton=0x7f0a0008;
-        public static final int textView1=0x7f0a000c;
-        public static final int tvNomJoueur=0x7f0a0009;
-        public static final int tvScore=0x7f0a000a;
+        public static final int annulerScore=0x7f0b0009;
+        public static final int button2=0x7f0b0001;
+        public static final int button3=0x7f0b0002;
+        public static final int button4=0x7f0b0003;
+        public static final int editText1=0x7f0b000f;
+        public static final int joueurActuel=0x7f0b0005;
+        public static final int labelJoueur=0x7f0b0004;
+        public static final int listJoueurs=0x7f0b0006;
+        public static final int listScore=0x7f0b0011;
+        public static final int listView1=0x7f0b0010;
+        public static final int listeScore=0x7f0b000d;
+        public static final int menu_ajouter_joueur=0x7f0b0012;
+        public static final int menu_nouvellePartie=0x7f0b0013;
+        public static final int menu_options=0x7f0b0014;
+        public static final int nouvellePartie=0x7f0b0000;
+        public static final int panelBas=0x7f0b0008;
+        public static final int panelHaut=0x7f0b0007;
+        public static final int scoreButton=0x7f0b000a;
+        public static final int textView1=0x7f0b000e;
+        public static final int tvNomJoueur=0x7f0b000b;
+        public static final int tvScore=0x7f0b000c;
     }
     public static final class layout {
         public static final int accueil_layout=0x7f030000;
@@ -71,22 +77,22 @@ public final class R {
         public static final int score_view=0x7f030004;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int Bouton_annuler_description=0x7f070004;
-        public static final int Joueur_actuel_label=0x7f070003;
-        public static final int Nouveau_joueur=0x7f070002;
-        public static final int Nouvelle_partie=0x7f070001;
-        public static final int Options=0x7f070006;
-        public static final int Score_bouton=0x7f070005;
-        public static final int app_name=0x7f070000;
+        public static final int Bouton_annuler_description=0x7f080004;
+        public static final int Joueur_actuel_label=0x7f080003;
+        public static final int Nouveau_joueur=0x7f080002;
+        public static final int Nouvelle_partie=0x7f080001;
+        public static final int Options=0x7f080006;
+        public static final int Score_bouton=0x7f080005;
+        public static final int app_name=0x7f080000;
         /**  Strings related to Settings 
  Example General settings 
  Example settings for Data & Sync 
  Example settings for Notifications 
          */
-        public static final int title_activity_settings=0x7f070007;
+        public static final int title_activity_settings=0x7f080007;
     }
     public static final class style {
         /** 
@@ -110,16 +116,16 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f090000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
+        public static final int AppTheme=0x7f090001;
     }
     public static final class xml {
-        public static final int pref_data_sync=0x7f040000;
-        public static final int pref_general=0x7f040001;
-        public static final int pref_headers=0x7f040002;
-        public static final int pref_notification=0x7f040003;
+        public static final int pref_data_sync=0x7f050000;
+        public static final int pref_general=0x7f050001;
+        public static final int pref_headers=0x7f050002;
+        public static final int pref_notification=0x7f050003;
     }
 }

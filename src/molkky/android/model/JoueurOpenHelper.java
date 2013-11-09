@@ -1,4 +1,4 @@
-package model;
+package molkky.android.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

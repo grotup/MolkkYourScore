@@ -11,17 +11,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,16 +34,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 
-public class MainActivity extends Activity implements OnClickListener, OnItemLongClickListener{
+public class PartieActivity extends Activity implements OnClickListener, OnItemLongClickListener{
 
 	private static final int CODE_RETOUR_OPTION = 1;
 	// La partie
 	private Partie engine;
-	boolean finPartie = false;
+	private boolean finPartie = false;
+	//Drawer
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d("DEBUG", "onCreate");
 		setContentView(R.layout.activity_main);
 		// On crée une partie
 		creerPartie();
@@ -49,21 +62,17 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		// On init les components.
 		initComponents();
 		updateComponents();
-		
-		// Create the adView
-		AdView  adView = new AdView(this, AdSize.BANNER, "ca-app-pub-6559258480031885/3966197652");
+		addAd();
 
-	    // Lookup your LinearLayout assuming it's been given
-	    // the attribute android:id="@+id/mainLayout"
-	    LinearLayout layout = (LinearLayout)findViewById(R.id.panelHaut);
-
-	    // Add the adView to it
-	    layout.addView(adView);
-
-	    // Initiate a generic request to load it with an ad
-	    adView.loadAd(new AdRequest());
 	}
 	
+	private void addAd() {
+		AdView  adView = new AdView(this, AdSize.BANNER, "ca-app-pub-6559258480031885/3966197652");
+	    LinearLayout layout = (LinearLayout)findViewById(R.id.panelHaut);
+	    layout.addView(adView);
+	    adView.loadAd(new AdRequest());
+	}
+
 	protected void onSaveInstanceState(Bundle outState){
 		super.onSaveInstanceState(outState);
 		// Quand on tue l'application, on enregistre le nom des joueurs déjà créés
@@ -96,7 +105,41 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
         
         LinearLayout panelBas = (LinearLayout) findViewById(R.id.panelBas);
 		panelBas.setVisibility(View.GONE);
-	}
+		
+		// Le drawer
+        // On récupère la liste String du menu
+		String[] mArrayMenu = getResources().getStringArray(R.array.drawer_menu);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mArrayMenu));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        
+     // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
+                ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(getTitle());
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(R.string.drawer_opened_title);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+    }
 	
 	/**
 	 * Méthode appelée au lancement de l'application. Si une partie était en cours, elle est rechargée.
@@ -136,7 +179,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	public void ajouterJoueur(){
 		// Dans ce cas, on affiche le formulaire du nom de joueur
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Nom du nouveau joueur");
+		builder.setTitle(R.string.nom_nouveau_joueur);
 
 		// Set up the input
 		final EditText input = new EditText(this);
@@ -156,7 +199,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			        Button ajoutScore = (Button) findViewById(R.id.scoreButton);
 					ajoutScore.setEnabled(true);
 		    	}else{
-		    		Toast.makeText(MainActivity.this, "Partie commencée. Impossible d'ajouter un joueur", Toast.LENGTH_SHORT).show();
+		    		Toast.makeText(PartieActivity.this, R.string.erreur_ajout_joueur_partie_commencee, Toast.LENGTH_SHORT).show();
 		    	}
 		    }
 		});
@@ -177,12 +220,12 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		if(engine.finDePartie){
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Fin.");
-			builder.setMessage("Fin de partie !");
+			builder.setMessage(R.string.fin_partie);
 			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int which) {
 			    	engine.ResetScoreTousJoueurs();
 			    	ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
-			    	JoueurListeAdapter adapter = new JoueurListeAdapter(MainActivity.this, engine.getListeJoueur());
+			    	JoueurListeAdapter adapter = new JoueurListeAdapter(PartieActivity.this, engine.getListeJoueur());
 					listJoueur.setAdapter(adapter);
 					updateComponents();
 			    }
@@ -281,7 +324,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			builder.setItems(liste, new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {
 			    	if(which == 0)
-						Toast.makeText(MainActivity.this, "Le joueur " + engine.getJoueurActuel().nomJoueur + " a " + (engine.getJoueurActuel().nbLignes + 1) + " ligne(s)", Toast.LENGTH_SHORT).show();
+						Toast.makeText(PartieActivity.this, "Le joueur " + engine.getJoueurActuel().nomJoueur + " a " + (engine.getJoueurActuel().nbLignes + 1) + " ligne(s)", Toast.LENGTH_SHORT).show();
 			    	engine.ajouterScore(which);
 					verifsFinDeTour();
 					engine.joueurSuivant();
@@ -298,7 +341,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 			if(finPartie){
 				engine.ResetScoreTousJoueurs();
 				ListView listJoueur = (ListView) findViewById(R.id.listJoueurs);
-		    	JoueurListeAdapter adapter = new JoueurListeAdapter(MainActivity.this, engine.getListeJoueur());
+		    	JoueurListeAdapter adapter = new JoueurListeAdapter(PartieActivity.this, engine.getListeJoueur());
 				listJoueur.setAdapter(adapter);
 				finPartie = false;
 				findViewById(R.id.nouvellePartie).setEnabled(false);
@@ -309,7 +352,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == CODE_RETOUR_OPTION){
-			Toast.makeText(this, "Si des préférences ont été modifiées, elles seront prises en compte à la prochaine réinitialisation.", Toast.LENGTH_SHORT).show();	 
+			Toast.makeText(this, "Les modifications seont prises en compte lors de la prochaine partie.", Toast.LENGTH_SHORT).show();	 
 		}
 	}
 	
@@ -320,10 +363,15 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 	    return true;
 	}
 
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {	
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+	          return true;
+	    }
+		return super.onOptionsItemSelected(item);
+		/*switch (item.getItemId()) {
 			case R.id.menu_nouvellePartie:
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(PartieActivity.this);
 				builder.setTitle("Réinitialiser");
 				builder.setMessage("Êtes vous sûrs de vouloir réinitialiser ?");
 				builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
@@ -339,11 +387,11 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 				    public void onClick(DialogInterface dialog, int which) {}
 				});
 				builder.show();
-				break;
+				return true;
 								
 			case R.id.menu_ajouter_joueur:
 				if(this.engine.partieCommencee()){
-					AlertDialog.Builder builderErreurPartieCommencee = new AlertDialog.Builder(MainActivity.this);
+					AlertDialog.Builder builderErreurPartieCommencee = new AlertDialog.Builder(PartieActivity.this);
 					builderErreurPartieCommencee.setTitle("Erreur");
 					builderErreurPartieCommencee.setMessage("Impossible d'ajouter un joueur, la partie est commencée.");
 					builderErreurPartieCommencee.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -353,14 +401,17 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 				}else{
 					ajouterJoueur();
 				}
-				break;
+				return true;
 				
 			case R.id.menu_options:
 				Intent i2 = new Intent(this, SettingsActivity.class);
 				startActivityForResult(i2, CODE_RETOUR_OPTION);
-		}
-		return false;
-	}
+				return true;
+				
+			default:
+				return super.onOptionsItemSelected(item);
+		}*/
+	} 
 
 	public boolean onItemLongClick(AdapterView<?> arg0, final View arg1, final int arg2, long arg3) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -373,11 +424,11 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
             			
             			final Joueur joueurAModifier = engine.getJoueur(arg2);
             			
-            			AlertDialog.Builder builderModifier = new AlertDialog.Builder(MainActivity.this);
+            			AlertDialog.Builder builderModifier = new AlertDialog.Builder(PartieActivity.this);
             			builderModifier.setTitle("Modifier joueur");
 
             			// Set up the input
-            			final EditText input = new EditText(MainActivity.this);
+            			final EditText input = new EditText(PartieActivity.this);
             			InputFilter[] filterArray = new InputFilter[1];
             			filterArray[0] = new InputFilter.LengthFilter(10);
             			input.setFilters(filterArray);
@@ -389,7 +440,7 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
             			    public void onClick(DialogInterface dialog, int which) {
             			    	joueurAModifier.setNomJoueur(input.getText().toString());
             			    	updateComponents();
-            			    	Toast.makeText(MainActivity.this, "Joueur modifié", Toast.LENGTH_SHORT).show();
+            			    	Toast.makeText(PartieActivity.this, "Joueur modifié", Toast.LENGTH_SHORT).show();
             			    	ListView lv = (ListView) findViewById(R.id.listJoueurs);
           					  	((BaseAdapter) lv.getAdapter()).notifyDataSetChanged();
             			    }
@@ -399,13 +450,14 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
             			break;
             		
             		case 1 :
-            			AlertDialog.Builder builderSupprimer = new AlertDialog.Builder(MainActivity.this);
+            			AlertDialog.Builder builderSupprimer = new AlertDialog.Builder(PartieActivity.this);
             			builderSupprimer.setMessage("Supprimer " + engine.getJoueur(arg2).nomJoueur);
             			builderSupprimer.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             				public void onClick(DialogInterface dialog, int which) {	
             			    	if(!engine.partieCommencee()){
             			    		engine.supprimerJoueur(arg2);
             			    		arg1.setAlpha(1);
+            			    		
             			    		updateComponents();
             			    	}
             			    	ListView lv = (ListView) findViewById(R.id.listJoueurs);
@@ -423,4 +475,40 @@ public class MainActivity extends Activity implements OnClickListener, OnItemLon
 		builder.show();
 		return false;
 	}
+	
+	@Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+	
+	@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+	
+	@Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        return super.onPrepareOptionsMenu(menu);
+    }
+	
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+	private void selectItem(int position) {
+		Toast.makeText(this, R.string.app_name, Toast.LENGTH_SHORT).show();
+		 
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        mDrawerLayout.closeDrawer(mDrawerList);
+	}
+	
 }

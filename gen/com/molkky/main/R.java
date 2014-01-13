@@ -14,6 +14,7 @@ public final class R {
     }
     public static final class array {
         public static final int NbPointsV=0x7f060001;
+        public static final int drawer_menu=0x7f060007;
         public static final int menuJoueurSelection=0x7f060006;
         public static final int nbLignes=0x7f060002;
         public static final int nbLignesV=0x7f060003;
@@ -38,61 +39,72 @@ public final class R {
         public static final int annuler_icone_48=0x7f020001;
         public static final int av_replay=0x7f020002;
         public static final int contentnew=0x7f020003;
-        public static final int icon=0x7f020004;
-        public static final int interdit=0x7f020005;
-        public static final int lignes0=0x7f020006;
-        public static final int lignes1=0x7f020007;
-        public static final int lignes2=0x7f020008;
-        public static final int lignes3=0x7f020009;
-        public static final int socialaddperson=0x7f02000a;
+        public static final int ic_drawer=0x7f020004;
+        public static final int icon=0x7f020005;
+        public static final int interdit=0x7f020006;
+        public static final int lignes0=0x7f020007;
+        public static final int lignes1=0x7f020008;
+        public static final int lignes2=0x7f020009;
+        public static final int lignes3=0x7f02000a;
+        public static final int socialaddperson=0x7f02000b;
     }
     public static final class id {
-        public static final int annulerScore=0x7f0b0009;
+        public static final int annulerScore=0x7f0b000c;
         public static final int button2=0x7f0b0001;
         public static final int button3=0x7f0b0002;
         public static final int button4=0x7f0b0003;
-        public static final int editText1=0x7f0b000f;
-        public static final int joueurActuel=0x7f0b0005;
-        public static final int labelJoueur=0x7f0b0004;
-        public static final int listJoueurs=0x7f0b0006;
-        public static final int listScore=0x7f0b0011;
-        public static final int listView1=0x7f0b0010;
-        public static final int listeScore=0x7f0b000d;
-        public static final int menu_ajouter_joueur=0x7f0b0012;
-        public static final int menu_nouvellePartie=0x7f0b0013;
-        public static final int menu_options=0x7f0b0014;
+        public static final int content_frame=0x7f0b0006;
+        public static final int drawer_layout=0x7f0b0004;
+        public static final int editText1=0x7f0b0012;
+        public static final int joueurActuel=0x7f0b0008;
+        public static final int labelJoueur=0x7f0b0007;
+        public static final int left_drawer=0x7f0b0005;
+        public static final int listJoueurs=0x7f0b0009;
+        public static final int listScore=0x7f0b0014;
+        public static final int listView1=0x7f0b0013;
+        public static final int listeScore=0x7f0b0010;
+        public static final int menu_ajouter_joueur=0x7f0b0015;
+        public static final int menu_nouvellePartie=0x7f0b0016;
+        public static final int menu_options=0x7f0b0017;
         public static final int nouvellePartie=0x7f0b0000;
-        public static final int panelBas=0x7f0b0008;
-        public static final int panelHaut=0x7f0b0007;
-        public static final int scoreButton=0x7f0b000a;
-        public static final int textView1=0x7f0b000e;
-        public static final int tvNomJoueur=0x7f0b000b;
-        public static final int tvScore=0x7f0b000c;
+        public static final int panelBas=0x7f0b000b;
+        public static final int panelHaut=0x7f0b000a;
+        public static final int scoreButton=0x7f0b000d;
+        public static final int textView1=0x7f0b0011;
+        public static final int tvNomJoueur=0x7f0b000e;
+        public static final int tvScore=0x7f0b000f;
     }
     public static final class layout {
         public static final int accueil_layout=0x7f030000;
         public static final int activity_main=0x7f030001;
-        public static final int itemjoueur=0x7f030002;
-        public static final int liste_joueurs_layout=0x7f030003;
-        public static final int score_view=0x7f030004;
+        public static final int drawer_list_item=0x7f030002;
+        public static final int itemjoueur=0x7f030003;
+        public static final int liste_joueurs_layout=0x7f030004;
+        public static final int score_view=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int Bouton_annuler_description=0x7f080004;
-        public static final int Joueur_actuel_label=0x7f080003;
-        public static final int Nouveau_joueur=0x7f080002;
-        public static final int Nouvelle_partie=0x7f080001;
-        public static final int Options=0x7f080006;
-        public static final int Score_bouton=0x7f080005;
+        public static final int Bouton_annuler_description=0x7f080005;
+        public static final int Joueur_actuel_label=0x7f080004;
+        public static final int Nouveau_joueur=0x7f080003;
+        public static final int Nouvelle_partie=0x7f080002;
+        public static final int Options=0x7f080007;
+        public static final int Score_bouton=0x7f080006;
         public static final int app_name=0x7f080000;
+        public static final int drawer_close=0x7f080009;
+        public static final int drawer_open=0x7f080008;
+        public static final int drawer_opened_title=0x7f080001;
+        public static final int erreur_ajout_joueur_partie_commencee=0x7f08000b;
+        public static final int fin_partie=0x7f08000c;
+        public static final int nom_nouveau_joueur=0x7f08000a;
         /**  Strings related to Settings 
  Example General settings 
  Example settings for Data & Sync 
  Example settings for Notifications 
          */
-        public static final int title_activity_settings=0x7f080007;
+        public static final int title_activity_settings=0x7f08000d;
     }
     public static final class style {
         /** 

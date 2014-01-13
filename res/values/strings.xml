@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Mölkk your score !</string>
+    <string name="app_name">Mölkk your score !</string><string name="drawer_opened_title">Menu</string>
     <string name="Nouvelle_partie">Reinitialiser</string>
     <string name="Nouveau_joueur">Ajouter joueur</string>
     <string name="Joueur_actuel_label">Tour de :</string>
     <string name="Bouton_annuler_description">Bouton annuler</string>
     <string name="Score_bouton">Score</string>
     <string name="Options">Options</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="nom_nouveau_joueur">Nom du nouveau joueur</string>
+    <string name="erreur_ajout_joueur_partie_commencee">Partie commencée. Impossible d\'ajouter un joueur</string>
+    <string name="fin_partie">Fin de partie !</string>
+    <string-array name="drawer_menu">
+        <item>Partie en cours</item><item >Nouvelle partie</item>
+        <item >Liste des joueurs</item>
+        <item >Options</item>
+        
+    </string-array>
 
 </resources>
